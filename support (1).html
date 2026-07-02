@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — SafeNest</title>
+<meta name="description" content="Get help with SafeNest: subscriptions, data sources, account questions, and contact information.">
+<link rel="icon" type="image/png" href="./shield.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1B2A44;--navy-deep:#121D31;--gold:#B08D57;--gold-light:#D4B270;--teal:#1F8378;--teal-dark:#166B61;--ivory:#F4EFE5;--ink:#22314E;--body:#4A5670}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Lato',sans-serif;background:var(--ivory);color:var(--ink);line-height:1.7;font-size:17px}
+h1,h2,h3{font-family:'Playfair Display',serif;color:var(--navy);line-height:1.2}
+a{color:var(--teal)}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;z-index:50;background:rgba(18,29,49,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(176,141,87,.25)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{height:36px}
+.brand span{font-family:'Playfair Display',serif;font-weight:700;font-size:20px;color:var(--ivory)}
+.brand b{color:var(--gold-light)}
+nav a.back{color:var(--gold-light);text-decoration:none;font-size:15px}
+header.page{background:linear-gradient(180deg,var(--navy),var(--navy-deep));padding:64px 0 56px;text-align:center}
+header.page .kicker{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-light);font-weight:700}
+header.page h1{color:var(--ivory);font-size:clamp(32px,4.5vw,48px);margin-top:14px}
+main{padding:64px 0 80px}
+.card{background:#fff;border:1px solid rgba(27,42,68,.12);border-radius:18px;padding:32px 34px;margin-bottom:22px;box-shadow:0 8px 26px rgba(27,42,68,.06)}
+.card h2{font-size:24px;margin-bottom:10px}
+.card h2 span{color:var(--gold);margin-right:10px}
+.card p{color:var(--body);margin-bottom:10px}
+.card p:last-child{margin-bottom:0}
+.contact{background:var(--navy);color:var(--ivory);text-align:center;border:none}
+.contact h2{color:var(--ivory)}
+.contact p{color:#93A0B8}
+.btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:700;padding:14px 30px;border-radius:999px;margin-top:14px}
+.btn:hover{background:var(--teal-dark)}
+footer{background:var(--navy-deep);padding:34px 0;color:#6E7C96;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer a{color:#93A0B8;text-decoration:none;margin-left:20px}
+footer a:hover{color:var(--gold-light)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="./index.html"><img src="./shield.png" alt=""><span>Safe<b>Nest</b></span></a>
+    <a class="back" href="./index.html">← Back to safenest</a>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="wrap">
+    <span class="kicker">Support</span>
+    <h1>How can we help?</h1>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="card contact">
+      <h2>Contact us</h2>
+      <p>Questions, bug reports, data concerns, or feedback — email us and we'll get back to you within 2 business days.</p>
+      <a class="btn" href="mailto:support@safenest.app">support@safenest.app</a>
+    </div>
+
+    <div class="card">
+      <h2><span>Q.</span>Where does SafeNest's data come from?</h2>
+      <p>SafeNest aggregates publicly available records: state offender registries, FBI and local crime statistics, FEMA flood maps, EPA facility databases (TRI and hazardous waste), the National Center for Education Statistics, EPA AirNow air quality data, and US Census data. We don't create this data — we collect it from official public sources and present it in one place.</p>
+      <p>Data is refreshed on a rolling basis, but public records can lag reality. Always verify anything important with the original source before making a decision.</p>
+    </div>
+
+    <div class="card">
+      <h2><span>Q.</span>How are the safety grades and school scores calculated?</h2>
+      <p>The neighborhood grade weighs local crime rates against national percentiles, adjusted for the radius you select. School SafeNest Scores combine academic performance, staffing quality (student-teacher and counselor ratios, certification rates), and school climate data into a 0–10 score with a letter grade. Grades are informational summaries, not guarantees about any place or institution.</p>
+    </div>
+
+    <div class="card">
+      <h2><span>Q.</span>I found data that looks wrong or outdated. What do I do?</h2>
+      <p>Email <a href="mailto:support@safenest.app">support@safenest.app</a> with the address and the item in question. Because our data comes from public sources, corrections usually need to happen at the source (the state registry, county records, etc.) — but we'll investigate, and if our aggregation or display is at fault, we'll fix it.</p>
+    </div>
+
+    <div class="card">
+      <h2><span>Q.</span>How do I manage or cancel my Premium subscription?</h2>
+      <p>Subscriptions are billed through your Apple ID. To manage or cancel: open <strong>Settings</strong> on your iPhone → tap your name → <strong>Subscriptions</strong> → select SafeNest. Cancelling stops the next renewal; you keep Premium until the end of the current billing period. Apple handles all billing — SafeNest never sees your payment details.</p>
+    </div>
+
+    <div class="card">
+      <h2><span>Q.</span>How do I restore a purchase on a new device?</h2>
+      <p>Make sure you're signed in with the same Apple ID you subscribed with, then open SafeNest and tap <strong>Restore</strong> on the Premium screen.</p>
+    </div>
+
+    <div class="card">
+      <h2><span>Q.</span>Can I request deletion of my data?</h2>
+      <p>Yes. Email <a href="mailto:support@safenest.app">support@safenest.app</a> from the address associated with your request and we'll delete the data we hold about you, subject to what we're legally required to retain. See our <a href="./privacy.html">Privacy Policy</a> for details on what we collect in the first place (it's not much).</p>
+    </div>
+
+    <div class="card">
+      <h2><span>Q.</span>Can I use SafeNest reports for tenant screening, hiring, or lending decisions?</h2>
+      <p>No. SafeNest is not a consumer reporting agency and its reports must not be used to determine anyone's eligibility for housing, employment, credit, insurance, or any other purpose regulated by the Fair Credit Reporting Act. SafeNest reports are about <em>places</em>, for your personal awareness. See our <a href="./terms.html">Terms of Use</a>.</p>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 SafeNest. All rights reserved.</span>
+    <span>
+      <a href="./support.html">Support</a>
+      <a href="./privacy.html">Privacy</a>
+      <a href="./terms.html">Terms</a>
+    </span>
+  </div>
+</footer>
+</body>
+</html>
