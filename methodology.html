@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Methodology — SafeNest</title>
+<meta name="description" content="The public data sources and vintages behind SafeNest: FBI crime data, NCES and CRDC school data, EDFacts assessments, FEMA, Census, EPA, and state registries.">
+<link rel="icon" type="image/png" href="./shield.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1B2A44;--navy-deep:#121D31;--gold:#B08D57;--gold-light:#D4B270;--teal:#1F8378;--teal-dark:#166B61;--ivory:#F4EFE5;--ink:#22314E;--body:#4A5670}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Lato',sans-serif;background:var(--ivory);color:var(--ink);line-height:1.7;font-size:17px}
+h1,h2,h3{font-family:'Playfair Display',serif;color:var(--navy);line-height:1.2}
+a{color:var(--teal)}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;z-index:50;background:rgba(18,29,49,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(176,141,87,.25)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{height:36px}
+.brand span{font-family:'Playfair Display',serif;font-weight:700;font-size:20px;color:var(--ivory)}
+.brand b{color:var(--gold-light)}
+nav a.back{color:var(--gold-light);text-decoration:none;font-size:15px}
+header.page{background:linear-gradient(180deg,var(--navy),var(--navy-deep));padding:64px 0 56px;text-align:center}
+header.page .kicker{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-light);font-weight:700}
+header.page h1{color:var(--ivory);font-size:clamp(32px,4.5vw,48px);margin-top:14px}
+header.page .sub{color:#93A0B8;margin-top:14px;font-size:16px}
+main{padding:64px 0 80px}
+.card{background:#fff;border:1px solid rgba(27,42,68,.12);border-radius:18px;padding:32px 34px;margin-bottom:22px;box-shadow:0 8px 26px rgba(27,42,68,.06)}
+.card h2{font-size:24px;margin-bottom:10px}
+.card h2 span{color:var(--gold);margin-right:10px}
+.card h3{font-size:17px;margin:16px 0 4px}
+.card p{color:var(--body);margin-bottom:10px}
+.card p:last-child{margin-bottom:0}
+.card ul{color:var(--body);margin:0 0 10px 20px}
+.card li{margin-bottom:6px}
+.meta{font-size:14px;color:var(--body);background:var(--ivory);border-radius:10px;padding:12px 16px;margin-bottom:10px}
+.meta b{color:var(--navy)}
+footer{background:var(--navy-deep);padding:34px 0;color:#6E7C96;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer a{color:#93A0B8;text-decoration:none;margin-left:20px}
+footer a:hover{color:var(--gold-light)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="./index.html"><img src="./shield.png" alt=""><span>Safe<b>Nest</b></span></a>
+    <a class="back" href="./index.html">← Back to safenest</a>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="wrap">
+    <span class="kicker">Methodology</span>
+    <h1>Where SafeNest's data comes from</h1>
+    <p class="sub">SafeNest compiles publicly available government records. This page lists each source and the exact data vintage behind it.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="card">
+      <h2><span>1.</span>Crime</h2>
+      <div class="meta"><b>Source:</b> FBI Uniform Crime Reporting (UCR) — Summary Reporting System, "Offenses Known and Clearances by Arrest" (Return A), via Jacob Kaplan's concatenated panel on openICPSR (project 100707, DOI <a href="https://doi.org/10.3886/E100707V22">10.3886/E100707V22</a>, version V22). <b>Vintage:</b> 2024, the latest year of full-reporting data per agency.</div>
+      <p>City crime figures are the violent-crime and property-crime rates per 100,000 residents that agencies reported to the FBI. Grades compare a city's rates to national averages of about 381 violent and 1,954 property offenses per 100,000 residents (FBI UCR).</p>
+      <h3>Known limitation</h3>
+      <p>Violent-crime counts come from the FBI's SRS (Return A) collection, which some agencies underreport for rape; totals may understate rape, but every city is measured the same way. This is disclosed rather than hidden, and a planned merge with the FBI's newer NIBRS data is intended to restore rape counts. Rates for small-population places are more volatile year to year, because a handful of incidents can move the rate substantially.</p>
+    </div>
+
+    <div class="card">
+      <h2><span>2.</span>Schools</h2>
+      <div class="meta"><b>Sources &amp; vintages:</b> NCES Common Core of Data (CCD) 2024-25 — school directory, enrollment, and staffing; U.S. Department of Education Civil Rights Data Collection (CRDC) 2021-22 — counselors, teacher certification, and reported discipline; state assessment results (EDFacts) 2023-24 — grade 3-8 math and reading proficiency, via the Zelma Education Data Center mirror (EDC v3.1).</div>
+      <p>The SafeNest School Score combines academic performance, staffing, and school climate into a 0–10 score with a letter grade. Public schools are covered; private schools are outside the CCD's scope.</p>
+      <p>The 2021-22 CRDC is the most recent Civil Rights Data Collection the Department of Education has published — the multi-year gap reflects the federal release schedule, not SafeNest's.</p>
+      <h3>Known gaps</h3>
+      <ul>
+        <li>Some schools are not in the CRDC for a given year. Where that happens — for example, several New York City selective-admission "exam" high schools — the school appears in SafeNest but is left unscored rather than scored on partial data.</li>
+        <li>The climate measure is based on reported disciplinary incidents. Most schools report none, so this dimension distinguishes schools less than the academic and staffing measures do.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span>3.</span>Sources queried live (not bundled)</h2>
+      <p>Some data is fetched from its source at the time you run a report, rather than shipped inside the app:</p>
+      <ul>
+        <li><b>FEMA</b> — federal disaster declaration history for the address's state.</li>
+        <li><b>U.S. Census</b> — American Community Survey 5-year estimates (2024 release) for neighborhood demographics.</li>
+        <li><b>EPA AirNow</b> — current air-quality readings.</li>
+        <li><b>State offender registries</b> — registered-offender records, looked up by location.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span>4.</span>How the grades and scores work</h2>
+      <p>Neighborhood safety grades reflect a city's crime rates relative to U.S. national averages. School scores combine academic performance, staffing, and school climate drawn from the sources above, expressed as a 0–10 score and an A–F letter grade that is relative to other public schools in the same state.</p>
+      <p>These grades and scores are algorithmic summaries — informational opinions, not statements of fact or guarantees about any place or institution. They can contain errors or reflect gaps in the underlying public records. Always verify anything important against the primary sources cited above before making a decision.</p>
+    </div>
+
+    <div class="card">
+      <h2><span>5.</span>Keeping the data current</h2>
+      <p>Each dataset's vintage is pinned and published (this page, and a machine-readable manifest in our data pipeline). Automated monitors watch every source for a newer release. When one appears, the update is rebuilt and validated against fixed ground-truth checks before it ships — a data change never goes out unverified.</p>
+    </div>
+
+    <div class="card">
+      <h2><span>6.</span>Important legal note</h2>
+      <p>SafeNest is not a consumer reporting agency, and its reports must not be used to determine anyone's eligibility for housing, employment, credit, insurance, tenant screening, or any other purpose regulated by the Fair Credit Reporting Act. SafeNest reports are about <em>places</em>, for your personal awareness. See our <a href="./terms.html">Terms of Use</a> and <a href="./privacy.html">Privacy Policy</a>.</p>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 SafeNest. All rights reserved.</span>
+    <span>
+      <a href="./methodology.html">Methodology</a>
+      <a href="./support.html">Support</a>
+      <a href="./privacy.html">Privacy</a>
+      <a href="./terms.html">Terms</a>
+    </span>
+  </div>
+</footer>
+</body>
+</html>
