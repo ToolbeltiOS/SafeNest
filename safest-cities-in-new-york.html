@@ -149,8 +149,29 @@ The grade is national-relative, not a curve within the state: a city at exactly 
 violent and property crime rate scores 50 out of 100 and receives a C, wherever it is.</p>
 
 <h3>What the ranking leaves out</h3>
-<p>Three groups of New York places are deliberately absent, because including them would put the wrong names at the top:</p>
-<ul><li><strong>50 county and sheriff agencies.</strong> The FBI's data is keyed by agency, not by city, and county-wide agencies sit in it alongside municipal ones. Their averages are diluted by everything outside the urban core, so they outrank real cities without being cities.</li><li><strong>9 cities reporting implausibly little crime.</strong> An agency can file a full year and report almost nothing in it — one city in this database reports a single property crime for an entire year at a population of 16,584. That is a reporting gap, not safety, and it would otherwise take first place. Cities below the 5th percentile of the national property crime rate are excluded.</li><li><strong>8 cities whose most recent full year is not 2024.</strong> Ranking one city's older data against another's 2024 is not a comparison.</li></ul>
+<p>Three groups of New York places are absent from the ranking, because each would otherwise take a top place without being a safe city (<a href="./safest-cities-by-state.html">why</a>):</p>
+<ul><li><strong>50 county and sheriff agencies</strong> — county-wide averages are diluted by everything outside the urban core, so they outrank real cities without being cities.</li><li><strong>9 cities reporting implausibly little crime</strong> — an agency can file a full year and report almost nothing in it. That is a reporting gap, not safety, and it would otherwise take first place.</li><li><strong>8 cities whose most recent full year is not 2024</strong> — ranking one city's older data against another's is not a comparison.</li></ul>
+
+<h3>Which way New York moved</h3>
+<p>Year-over-year direction, as reported: of the 130 ranked New York cities with a
+comparable prior year, <strong>66 reported a lower violent crime rate than the year before</strong>
+and 46 reported a higher one, with 18 roughly level. That is what the agencies filed for
+2024 against their own previous year — it is a record of what changed, not a projection of what
+happens next. 89 of 130 ranked New York cities reported no homicides at all.</p>
+
+<h3>How close the letters are in New York</h3>
+<p>5 of New York's 130 ranked cities would print a <em>different letter grade</em> if
+their violent crime count changed by a single incident. That is not a flaw peculiar to New York: every
+threshold system has a boundary and some cities sit on it. It is the concrete reason to treat the
+gap between adjacent grades — and adjacent positions in the table above — as noise rather than a
+finding.</p>
+
+<h2>The largest cities in New York</h2>
+<p>The ranking above is dominated by suburbs, because that is what a violent-crime rate does: it
+sorts small and affluent places to the top. Here are the biggest New York cities in the same data,
+ordered by population rather than by crime, so you can see where they actually land.</p>
+
+<div class="tablewrap"><table><thead><tr><th>City</th><th>Population</th><th>Violent / 100k</th><th>Property / 100k</th><th>Grade</th></tr></thead><tbody><tr><td>New York</td><td>8,299,271</td><td>671.4</td><td>2,368.3</td><td><span class="grade" style="background:#C4652A">D</span></td></tr><tr><td>Buffalo</td><td>273,728</td><td>706.9</td><td>3,809.6</td><td><span class="grade" style="background:#C4652A">D</span></td></tr><tr><td>Yonkers</td><td>206,557</td><td>311.8</td><td>1,014.7</td><td><span class="grade" style="background:#1F8378">B</span></td></tr><tr><td>Rochester</td><td>206,093</td><td>582.3</td><td>3,289.3</td><td><span class="grade" style="background:#C4652A">D</span></td></tr><tr><td>Syracuse</td><td>145,175</td><td>765.3</td><td>4,234.2</td><td><span class="grade" style="background:#C4652A">D</span></td></tr><tr><td>Amherst Town</td><td>126,184</td><td>103.8</td><td>2,058.1</td><td><span class="grade" style="background:#1F8378">B</span></td></tr><tr><td>Ramapo Town</td><td>110,136</td><td>75.4</td><td>630.1</td><td><span class="grade" style="background:#2E7D4F">A</span></td></tr><tr><td>Albany</td><td>102,095</td><td>816.9</td><td>2,848.3</td><td><span class="grade" style="background:#C4652A">D</span></td></tr></tbody><caption>The largest New York cities in the ranking, by population — not by crime. Big cities carry higher reported rates almost everywhere, which is why a safest-cities list and a biggest-cities list look nothing alike.</caption></table></div>
 
 <div class="note"><p><strong>Why no small towns are on this list.</strong>
 New York has 264 municipalities under 10,000 residents in the FBI data.
@@ -161,34 +182,18 @@ top of this page on the strength of a number that is mostly noise, so they are e
 ranking and reported here instead.</p></div>
 
 <div class="box">
-  <h3>Methodology</h3>
-  <p><strong>Source.</strong> FBI Uniform Crime Reporting (UCR), Summary Reporting System — "Offenses
-  Known and Clearances by Arrest" (Return A), via Jacob Kaplan's concatenated agency panel on
-  openICPSR (<a href="https://doi.org/10.3886/E100707V22">DOI 10.3886/E100707V22</a>, V22). Figures
-  are crimes <em>reported to</em> the FBI by each city's police agency, for 2024.</p>
-  <p><strong>The grade.</strong> A city's score is 100 / (1 + severity), weighing its violent rate
-  against a national baseline of 381 per 100,000 (70%) and its property rate against
-  1,954 per 100,000 (30%). The same code computes the grade here, in
-  the SafeNest app and in our data pipeline.</p>
-  <p><strong>Reproducing this.</strong> Every number on this page is computed by
-  <code>data-pipeline/analysis/generate_state_rankings.py</code> from the database that ships in the
-  app. The ranking is not editorial: it is a sort.</p>
-  <p><strong>What this ranking is not.</strong> A city grade is a city-wide average of reported
-  crime. It does not describe a street, a block or an address, and crime is concentrated unevenly
-  inside every city — including the ones at the top of this list. Adjacent positions in the table
-  are not meaningfully different from one another: a single reported incident can move a city
-  several places. Read the ranking as a rough sort, not a verdict on any particular place.</p>
-  <p>Full source list and vintages: <a href="./methodology.html">SafeNest methodology</a>.</p>
-</div>
-
-<div class="box">
-  <h3>What a grade is, and isn't</h3>
-  <p>SafeNest grades are algorithmic summaries of public records — informational opinions, not
-  statements of fact and not guarantees about any place. They describe a city as a whole, using
-  crime that was reported. They are not a substitute for looking at a specific address, and they
-  must not be used to judge a person. SafeNest is not a consumer reporting agency; our reports may
-  not be used for tenant screening, hiring, lending, or any other purpose regulated by the Fair
-  Credit Reporting Act. See our <a href="./terms.html">Terms of Use</a>.</p>
+  <h3>Method, in short</h3>
+  <p>Rankings come from FBI Uniform Crime Reporting data (2024), via the Kaplan agency panel
+  (<a href="https://doi.org/10.3886/E100707V22">DOI 10.3886/E100707V22</a>). A city's score is
+  100 / (1 + severity), weighing its violent rate against a national baseline of 381 per
+  100,000 (70%) and its property rate against 1,954 per 100,000 (30%) —
+  the same code that grades cities in the SafeNest app. Every number here is computed by
+  <code>generate_state_rankings.py</code>; the ranking is a sort, not an edit.</p>
+  <p><strong>A grade is not a verdict.</strong> It is a city-wide average of reported crime — an
+  informational opinion, not a statement of fact, and not a description of any street, block or
+  address. It may not be used for tenant screening, hiring or lending
+  (<a href="./terms.html">Terms</a>). Full sources and data vintages:
+  <a href="./methodology.html">methodology</a>.</p>
 </div>
 
 <div class="cta">
