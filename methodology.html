@@ -98,22 +98,42 @@ footer a:hover{color:var(--gold-light)}
         <li><b>U.S. Census</b> — American Community Survey 5-year estimates (2024 release) for neighborhood demographics.</li>
         <li><b>EPA AirNow</b> — current air-quality readings.</li>
         <li><b>State offender registries</b> — registered-offender records, looked up by location.</li>
+        <li><b>Apple Maps</b> — nearby amenities (parks, transit, groceries, gyms, pools, golf courses, sports courts, marinas). These are what we found, not a guaranteed-complete census of what exists.</li>
+        <li><b>OpenStreetMap</b> — mapped bike infrastructure and playgrounds, via the Overpass API.</li>
       </ul>
     </div>
 
     <div class="card">
-      <h2><span>4.</span> How the grades and scores work</h2>
-      <p>Neighborhood safety grades reflect a city's crime rates relative to U.S. national averages. The crime grade describes the city as a whole; conditions can vary substantially from block to block within it. School scores combine academic performance, staffing, and school climate drawn from the sources above, expressed as a 0–10 score and an A–F letter grade that is relative to other public schools in the same state.</p>
+      <h2><span>4.</span> Living Here — recreation, amenities and bike data</h2>
+      <div class="meta"><b>Sources:</b> Apple Maps (amenities) and OpenStreetMap via the Overpass API (bike infrastructure, playgrounds). <b>Vintage:</b> queried live at the time you run a report; not bundled.</div>
+      <p>SafeNest reports are split into two halves. <strong>Safety</strong> is the background check — crime and registered offenders. <strong>Living Here</strong> is everything else about the place: schools, environment, hazards, amenities, recreation, commute and costs.</p>
+      <p><strong>Nothing in Living Here affects the safety grade.</strong> The grade is computed from reported crime rates only. Amenity counts, recreation, walkability, flood, hazards and environmental data are facts we report — they are not inputs we grade. This is enforced in the app's code and in its test suite, not just in policy.</p>
+      <h3>What we count, and what a count means</h3>
+      <p>Amenity results come from Apple Maps and are <em>what we found within your search radius</em> — not a guaranteed-complete census. Apple does not publish a completeness guarantee for these results, so we say "found nearby" and mean it.</p>
+      <h3>Bike infrastructure and playgrounds</h3>
+      <p>Bike lane mileage and playgrounds come from OpenStreetMap, a community-mapped database. OSM's cycling coverage is strong in cities and thinner in rural areas. That means <strong>an empty result is ambiguous</strong>: it can mean there is no bike infrastructure, or it can mean nobody has mapped it yet. We report "no mapped bike infrastructure" rather than "0 miles" for exactly that reason, and we never show a failed lookup as a zero.</p>
+      <h3>Attribution</h3>
+      <p>Bike and playground data is © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, available under the <a href="https://opendatacommons.org/licenses/odbl/">Open Database License (ODbL)</a>.</p>
+
+      <h2><span>5.</span> Noise — an estimate, not a measurement</h2>
+      <div class="meta"><b>Source:</b> Apple Maps (proximity to mapped transport infrastructure). <b>Vintage:</b> queried live.</div>
+      <p><strong>SafeNest does not measure noise.</strong> We have never taken a decibel reading at any address, and we cannot.</p>
+      <p>What we can do is check which transport noise sources are <em>mapped near</em> an address — airports, highways, railways and major roads — and how close they are. That is a fact, and we report it as one. From it we derive an ordinal estimate — Low, Moderate or High — which is always labelled as an estimate and always shows the sources it was derived from.</p>
+      <p>Earlier versions of the app printed a decibel range ("65–75 dB"). That was wrong and it has been removed: the figure came from a scoring heuristic with invented weights, not from any acoustic data, and presenting it as decibels implied a measurement we had never taken. Proximity to a highway genuinely does correlate with noise; a decibel reading is a different kind of claim, and we could not support it.</p>
+      <p>Noise carries no letter grade, for the same reason nothing else in Living Here does.</p>
+
+      <h2><span>6.</span> How the grades and scores work</h2>
+      <p><strong>The safety grade is computed from reported crime rates only</strong>, relative to U.S. national averages. Nothing else feeds it: not registered offenders, not flood or hazard risk, not environmental sites, not amenities or walkability. Those are all reported as facts in the Living Here half of the report, and none of them moves the letter. (Before v1.2 the grade did blend several of these; it no longer does, and grades changed accordingly.) The crime grade describes the city as a whole; conditions can vary substantially from block to block within it. School scores combine academic performance, staffing, and school climate drawn from the sources above, expressed as a 0–10 score and an A–F letter grade that is relative to other public schools in the same state.</p>
       <p>These grades and scores are algorithmic summaries — informational opinions, not statements of fact or guarantees about any place or institution. They can contain errors or reflect gaps in the underlying public records. Always verify anything important against the primary sources cited above before making a decision.</p>
     </div>
 
     <div class="card">
-      <h2><span>5.</span> Keeping the data current</h2>
+      <h2><span>7.</span> Keeping the data current</h2>
       <p>Each dataset's vintage is pinned and published (this page, and a machine-readable manifest in our data pipeline). Automated monitors watch every source for a newer release. When one appears, the update is rebuilt and validated against fixed ground-truth checks before it ships — a data change never goes out unverified.</p>
     </div>
 
     <div class="card">
-      <h2><span>6.</span> Important legal note</h2>
+      <h2><span>8.</span> Important legal note</h2>
       <p>SafeNest is not a consumer reporting agency, and its reports must not be used to determine anyone's eligibility for housing, employment, credit, insurance, tenant screening, or any other purpose regulated by the Fair Credit Reporting Act. SafeNest reports are about <em>places</em>, for your personal awareness. See our <a href="./terms.html">Terms of Use</a> and <a href="./privacy.html">Privacy Policy</a>.</p>
     </div>
 
