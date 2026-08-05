@@ -58,6 +58,37 @@ button.go{background:var(--teal);color:#fff;border:none;font-family:'Lato',sans-
 button.go:hover{background:var(--teal-dark)}
 button.go[disabled]{opacity:.6;cursor:default}
 .note{font-size:14px;color:var(--muted);line-height:1.6}
+.note a{color:var(--gold-light)}
+.attrib{font-size:12.5px;color:#7C8AA3;margin-top:14px}
+.linkish{background:none;border:none;padding:0;font:inherit;color:var(--gold-light);cursor:pointer;text-decoration:underline}
+
+/* autocomplete — suggestions are an ENHANCEMENT, never a dependency */
+.ac-wrap{position:relative}
+.ac-list{list-style:none;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;
+  background:#fff;border:1px solid rgba(27,42,68,.16);border-radius:12px;overflow:hidden;
+  box-shadow:0 14px 34px rgba(18,29,49,.28);display:none}
+.ac-list.open{display:block}
+.ac-list li{padding:14px 16px;min-height:48px;color:var(--ink);font-size:16px;cursor:pointer;
+  border-bottom:1px solid rgba(27,42,68,.08);line-height:1.35}
+.ac-list li:last-child{border-bottom:none}
+.ac-list li small{display:block;color:#6B7890;font-size:13px;margin-top:2px}
+.ac-list li:hover,.ac-list li.sel{background:#EFF6F4}
+
+/* teaser */
+.teaser h3.cover-h{font-size:17px;margin:22px 0 10px;color:var(--navy)}
+.resolved{background:#F2F7F5;border:1px solid rgba(31,131,120,.3);border-radius:14px;padding:16px 18px}
+.resolved.unverified{background:#FBF6EC;border-color:rgba(176,141,87,.45)}
+.resolved-label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--teal)}
+.resolved.unverified .resolved-label{color:var(--gold)}
+.resolved-addr{font-family:'Playfair Display',serif;font-size:21px;color:var(--navy);margin-top:6px;line-height:1.25}
+.resolved-meta{font-size:14.5px;color:var(--body);margin-top:5px}
+.teaser-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:22px}
+.teaser-actions .go{flex:0 0 auto}
+@media(max-width:560px){
+  .teaser-actions{flex-direction:column;align-items:stretch}
+  .teaser-actions .go,.teaser-actions .btn-ghost{width:100%;text-align:center}
+  .ac-list li{padding:16px}
+}
 .err{background:rgba(180,60,60,.15);border:1px solid rgba(220,120,120,.5);color:#FFD9D9;padding:12px 14px;border-radius:10px;font-size:15px;display:none}
 .err.show{display:block}
 
@@ -100,17 +131,64 @@ footer a:hover{color:var(--gold-light)}
   <section class="card buy">
     <h2>Get a neighborhood safety report</h2>
     <div class="price"><b>$6.99</b><span>one address · one-time · no subscription</span></div>
-    <form class="buy-form" id="buy" novalidate>
+    <form class="buy-form" id="buy" novalidate autocomplete="off">
       <label for="address">Property address</label>
-      <input type="text" id="address" name="address" autocomplete="street-address"
-             placeholder="1201 3rd Ave, Seattle, WA 98101" maxlength="200" required>
+      <div class="ac-wrap">
+        <input type="text" id="address" name="address" autocomplete="off" autocapitalize="off"
+               spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false"
+               aria-controls="ac-list" aria-describedby="ac-hint"
+               placeholder="1201 3rd Ave, Seattle, WA 98101" maxlength="200" required>
+        <ul class="ac-list" id="ac-list" role="listbox" aria-label="Address suggestions"></ul>
+      </div>
       <div class="err" id="err" role="alert"></div>
-      <button class="go" type="submit" id="go">Continue to secure checkout</button>
+      <button class="go" type="submit" id="go">Continue</button>
     </form>
-    <p class="note" style="margin-top:16px">
+    <p class="note" id="ac-hint" style="margin-top:16px">
       Payment via Stripe. If a critical source can't be reached, you get the honest report and an automatic refund.
     </p>
     <p class="note">Your report is emailed when it's ready — usually within about 5 minutes.</p>
+  </section>
+
+  <!-- ── The teaser step. Hidden until an address is submitted. ────────────────
+       CLAIMS HERE ARE COVERAGE STATEMENTS ONLY — what the report will cover for
+       this location. No grade, no counts, no risk, nothing about the data
+       itself, because none of that is known before the report is built and
+       asserting it would be a data claim on a marketing surface. -->
+  <section class="card teaser" id="teaser" hidden aria-live="polite">
+    <h2 id="teaser-title">Here's what your report will cover</h2>
+
+    <div class="resolved" id="resolved-box">
+      <div class="resolved-label" id="resolved-label">Address confirmed</div>
+      <div class="resolved-addr" id="resolved-addr"></div>
+      <div class="resolved-meta" id="resolved-meta"></div>
+    </div>
+
+    <p class="note" id="teaser-note"></p>
+
+    <h3 class="cover-h">Your report will cover</h3>
+    <ul class="inside" id="cover-list">
+      <li>Crime statistics and grade</li>
+      <li>Registered offender counts by distance</li>
+      <li>Nearby schools with SafeNest Scores</li>
+      <li>Flood &amp; disaster history</li>
+      <li>Natural hazard risk</li>
+      <li>Air quality</li>
+      <li>EPA toxic and hazardous-waste sites</li>
+      <li>Neighborhood profile from census data</li>
+      <li>Estimated property tax</li>
+      <li>Parks, playgrounds and bike infrastructure</li>
+    </ul>
+    <p class="note">Every section names its source, and says so plainly when a
+       source can't be reached for this location.</p>
+
+    <div class="teaser-actions">
+      <button class="go" type="button" id="go2">Continue to secure checkout — $6.99</button>
+      <a class="btn-ghost" href="./sample-report.pdf" target="_blank" rel="noopener">See a full sample report</a>
+    </div>
+    <div class="err" id="err2" role="alert"></div>
+    <p class="note"><button type="button" class="linkish" id="edit-addr">← Use a different address</button></p>
+    <p class="note attrib">Address suggestions ©&nbsp;OpenStreetMap contributors, via Photon.
+       Address confirmation by the US&nbsp;Census Bureau geocoder.</p>
   </section>
 
   <section class="card">
@@ -196,35 +274,186 @@ footer a:hover{color:var(--gold-light)}
 
 <script>
 (function(){
-  var API = "https://safenest-proxy.wak3upsociety.workers.dev/api/checkout";
-  var form = document.getElementById("buy");
-  var input = document.getElementById("address");
-  var btn = document.getElementById("go");
-  var err = document.getElementById("err");
+  var WORKER  = "https://safenest-proxy.wak3upsociety.workers.dev";
+  var CHECKOUT = WORKER + "/api/checkout";
+  var TEASER   = WORKER + "/api/teaser";
+  var PHOTON   = "https://photon.komoot.io/api/";
 
-  // Prefill from ?address= so a city page can hand the address across.
+  var form   = document.getElementById("buy");
+  var input  = document.getElementById("address");
+  var btn    = document.getElementById("go");
+  var err    = document.getElementById("err");
+  var list   = document.getElementById("ac-list");
+  var teaser = document.getElementById("teaser");
+  var rBox   = document.getElementById("resolved-box");
+  var rLabel = document.getElementById("resolved-label");
+  var rAddr  = document.getElementById("resolved-addr");
+  var rMeta  = document.getElementById("resolved-meta");
+  var tNote  = document.getElementById("teaser-note");
+  var go2    = document.getElementById("go2");
+  var err2   = document.getElementById("err2");
+  var editA  = document.getElementById("edit-addr");
+
+  // What actually rides to checkout. Set by the teaser step: the Census-resolved
+  // string when we could verify, the raw input when we could not — so in the
+  // resolved case the runner geocodes the identical string the buyer confirmed.
+  var chosenAddress = null;
+
   try {
     var q = new URLSearchParams(location.search).get("address");
     if (q) input.value = q.slice(0, 200);
   } catch (e) {}
 
-  function fail(msg){
-    err.textContent = msg;
-    err.className = "err show";
-    btn.disabled = false;
-    btn.textContent = "Continue to secure checkout";
+  // ── autocomplete (Photon) — an ENHANCEMENT. Every failure path here is
+  //    silent: the field keeps working as a plain input, and nothing blocks. ──
+  var acTimer = null, acSeq = 0, items = [], selIdx = -1;
+
+  function closeList(){
+    list.className = "ac-list"; list.innerHTML = "";
+    input.setAttribute("aria-expanded","false"); items = []; selIdx = -1;
+  }
+  function labelFor(p){
+    var line1 = [p.housenumber, p.street || p.name].filter(Boolean).join(" ") || p.name || "";
+    var line2 = [p.city || p.county, p.state, p.postcode].filter(Boolean).join(", ");
+    return { line1: line1, line2: line2, full: (line1 + (line2 ? ", " + line2 : "")).trim() };
+  }
+  function renderList(feats){
+    // DEDUPE BY THE RENDERED LABEL. Photon returns one feature per POI, so a
+    // single street address can come back five times over — the building, the
+    // coffee shop in it, the dentist upstairs — and they all collapse to the
+    // same line once we drop the POI name. Five identical rows is worse than
+    // one: it reads as broken. Keyed on what the user actually sees.
+    var seen = {};
+    items = feats.map(function(f){ return labelFor(f.properties); })
+                 .filter(function(x){
+                   var k = x.full.toLowerCase();
+                   if (x.full.length <= 3 || seen[k]) return false;
+                   seen[k] = 1; return true;
+                 }).slice(0, 5);
+    if (!items.length) { closeList(); return; }
+    list.innerHTML = items.map(function(it, i){
+      return '<li role="option" id="ac-'+i+'" data-i="'+i+'">' +
+             esc(it.line1) + (it.line2 ? '<small>'+esc(it.line2)+'</small>' : '') + '</li>';
+    }).join("");
+    list.className = "ac-list open";
+    input.setAttribute("aria-expanded","true");
+    selIdx = -1;
+  }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  function suggest(q){
+    var seq = ++acSeq;
+    var url = PHOTON + "?q=" + encodeURIComponent(q) + "&limit=8&lang=en";
+    // Photon has no country param; filter client-side on the returned countrycode.
+    fetch(url, { mode: "cors" })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        if (!d || seq !== acSeq) return;              // a newer keystroke won
+        renderList((d.features || []).filter(function(f){
+          return (f.properties || {}).countrycode === "US";
+        }));
+      })
+      .catch(function(){ /* suggestions are optional — stay silent */ });
   }
 
-  form.addEventListener("submit", function(ev){
+  input.addEventListener("input", function(){
+    chosenAddress = null;
+    var v = input.value.trim();
+    clearTimeout(acTimer);
+    if (v.length < 4) { closeList(); return; }
+    acTimer = setTimeout(function(){ suggest(v); }, 300);
+  });
+
+  list.addEventListener("mousedown", function(ev){
+    var li = ev.target.closest("li"); if (!li) return;
     ev.preventDefault();
+    input.value = items[+li.dataset.i].full;
+    closeList();
+    submit();
+  });
+
+  input.addEventListener("keydown", function(ev){
+    var open = list.classList.contains("open");
+    if (ev.key === "ArrowDown" || ev.key === "ArrowUp") {
+      if (!open) return;
+      ev.preventDefault();
+      selIdx += (ev.key === "ArrowDown" ? 1 : -1);
+      if (selIdx < 0) selIdx = items.length - 1;
+      if (selIdx >= items.length) selIdx = 0;
+      Array.prototype.forEach.call(list.children, function(li, i){
+        li.className = (i === selIdx ? "sel" : "");
+      });
+    } else if (ev.key === "Enter") {
+      if (open && selIdx >= 0) { ev.preventDefault(); input.value = items[selIdx].full; closeList(); submit(); }
+    } else if (ev.key === "Escape") { closeList(); }
+  });
+  document.addEventListener("click", function(ev){
+    if (!ev.target.closest(".ac-wrap")) closeList();
+  });
+
+  // ── the teaser step ──────────────────────────────────────────────────────
+  function fail(el, b, msg, label){
+    el.textContent = msg; el.className = "err show";
+    b.disabled = false; b.textContent = label;
+  }
+
+  function submit(){
     var address = (input.value || "").trim();
     err.className = "err";
-    if (!address) { fail("Please enter the property address."); return; }
+    if (!address) { fail(err, btn, "Please enter the property address.", "Continue"); return; }
+    closeList();
+    btn.disabled = true; btn.textContent = "Checking address…";
 
-    btn.disabled = true;
-    btn.textContent = "Starting checkout…";
+    fetch(TEASER + "?address=" + encodeURIComponent(address))
+      .then(function(r){ return r.json(); })
+      .then(function(d){ showTeaser(address, d); })
+      // A teaser that cannot load must not stop a sale: fall through to the
+      // unverified state, exactly as if Census had been unreachable.
+      .catch(function(){ showTeaser(address, { resolved: false, reason: "unreachable" }); })
+      .then(function(){ btn.disabled = false; btn.textContent = "Continue"; });
+  }
 
-    fetch(API, {
+  function showTeaser(rawAddress, d){
+    if (d && d.resolved && d.address) {
+      chosenAddress = d.address;                       // the string the report is built on
+      rBox.className = "resolved";
+      rLabel.textContent = "Address confirmed";
+      rAddr.textContent = d.address;
+      rMeta.textContent = [d.county, d.state_fips && d.county_fips
+        ? "FIPS " + d.state_fips + d.county_fips : ""].filter(Boolean).join(" · ");
+      tNote.textContent = "Confirmed with the US Census Bureau geocoder. Your report "
+        + "will be built for this exact address.";
+    } else {
+      chosenAddress = rawAddress;
+      rBox.className = "resolved unverified";
+      rLabel.textContent = "Couldn't verify right now";
+      rAddr.textContent = rawAddress;
+      rMeta.textContent = "";
+      tNote.textContent = "We couldn't confirm this address just now — you can still "
+        + "continue. If it turns out we can't build a report for it, you're refunded "
+        + "automatically.";
+    }
+    err2.className = "err";
+    teaser.hidden = false;
+    teaser.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  editA.addEventListener("click", function(ev){
+    ev.preventDefault();
+    teaser.hidden = true; chosenAddress = null;
+    input.focus(); input.select();
+    input.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  // ── checkout ─────────────────────────────────────────────────────────────
+  go2.addEventListener("click", function(){
+    var address = chosenAddress || (input.value || "").trim();
+    if (!address) { fail(err2, go2, "Please enter the property address.", "Continue to secure checkout — $6.99"); return; }
+    err2.className = "err";
+    go2.disabled = true; go2.textContent = "Starting checkout…";
+
+    fetch(CHECKOUT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ address: address, tier: "single", radius_miles: 1 })
@@ -232,10 +461,16 @@ footer a:hover{color:var(--gold-light)}
     .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, body: j }; }); })
     .then(function(res){
       if (res.ok && res.body && res.body.url) { window.location.href = res.body.url; return; }
-      fail((res.body && res.body.error) || "Could not start checkout. Please try again.");
+      fail(err2, go2, (res.body && res.body.error) || "Could not start checkout. Please try again.",
+           "Continue to secure checkout — $6.99");
     })
-    .catch(function(){ fail("Could not reach checkout. Check your connection and try again."); });
+    .catch(function(){
+      fail(err2, go2, "Could not reach checkout. Check your connection and try again.",
+           "Continue to secure checkout — $6.99");
+    });
   });
+
+  form.addEventListener("submit", function(ev){ ev.preventDefault(); submit(); });
 })();
 </script>
 
