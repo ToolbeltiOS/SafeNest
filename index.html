@@ -72,7 +72,10 @@ nav .btn{padding:10px 22px;font-size:15px}
 .hero h1 em{font-style:normal;color:var(--gold-light)}
 .hero p.lede{font-size:19px;color:var(--muted);max-width:34em;margin-bottom:34px}
 .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
-.hero small{color:var(--muted);font-size:14px}
+.hero small{color:var(--muted);font-size:14px;display:block}
+.hero small.soon{margin-top:10px;color:#7C8AA3;font-size:13px;letter-spacing:.02em}
+.soon-badge{display:inline-block;margin-top:18px;padding:9px 20px;border:1px dashed rgba(244,239,229,.35);border-radius:999px;color:#93A0B8;font-size:14px;letter-spacing:.03em}
+.premium-note{max-width:52ch;margin:18px auto 0;font-size:15px;color:#93A0B8;line-height:1.6}
 .phone-stage{position:relative;display:flex;justify-content:center;padding:10px 0 0}
 .ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:560px;height:560px;border:3px dashed var(--teal);border-radius:50%;opacity:.5;animation:spin 60s linear infinite}
 .ring.r2{width:420px;height:420px;opacity:.3;animation-duration:45s;animation-direction:reverse}
@@ -161,7 +164,7 @@ footer .wrap{display:grid;gap:26px}
       <img src="./shield.png" alt="SafeNest shield logo">
       <span>Safe<b>Nest</b></span>
     </a>
-    <a class="btn" href="#download">Get the app</a>
+    <a class="btn" href="./report.html">Get a report</a>
   </div>
 </nav>
 
@@ -170,12 +173,13 @@ footer .wrap{display:grid;gap:26px}
     <div>
       <span class="kicker">Know your neighborhood</span>
       <h1>Your next home needs a <em>background check.</em></h1>
-      <p class="lede">Crime, registered offenders, flood risk, schools, air quality, property taxes — SafeNest pulls 13 public data sources into one neighborhood report for any US address. One search. The full picture.</p>
+      <p class="lede">Crime, registered offenders, flood and disaster history, schools, air quality, property taxes — SafeNest pulls ten public data sources into one neighborhood report for any US address. One search. The full picture.</p>
       <div class="hero-ctas">
-        <a class="btn" href="#download">Download on the App&nbsp;Store</a>
+        <a class="btn" href="./report.html">Get a neighborhood safety report — $6.99</a>
         <a class="btn btn-ghost" href="#features">See what it finds</a>
       </div>
-      <small>Free to search · Any US address · Takes about 30 seconds</small>
+      <small>Any US address · Delivered by email as a PDF · No subscription</small>
+      <small class="soon">iOS app coming soon to the App&nbsp;Store</small>
     </div>
     <div class="phone-stage">
       <div class="ring"></div>
@@ -192,7 +196,7 @@ footer .wrap{display:grid;gap:26px}
 
 <section class="strip">
   <div class="wrap">
-    <div><b>13</b> public data sources</div>
+    <div><b>10</b> data sources per report</div>
     <div>Offender <b>registry</b></div>
     <div>FEMA <b>disaster</b> declarations</div>
     <div>School <b>scores</b></div>
@@ -216,7 +220,7 @@ footer .wrap{display:grid;gap:26px}
 
     <div class="row reveal">
       <div>
-        <span class="grade g-gold">13</span>
+        <span class="grade g-gold">10</span>
         <div class="kicker">The full picture</div>
         <h2>Everything the listing won't tell you, finally in one place.</h2>
         <p>Crime grade, flood &amp; disaster history, air quality, noise, property tax, commute, earthquake hazard, EPA sites, rent burden, vacancy — every card in one screen. This used to take a weekend of Googling.</p>
@@ -269,7 +273,9 @@ footer .wrap{display:grid;gap:26px}
       <span class="perk">Shareable PDF export</span>
       <span class="perk">Every data card unlocked</span>
     </div>
-    <a class="btn" href="#download">Stop wondering</a>
+    <p class="premium-note">Premium unlocks inside the iOS app, coming soon to the App&nbsp;Store.
+       Available today: the $6.99 neighborhood safety report, emailed as a PDF.</p>
+    <a class="btn" href="./report.html">Get a report today</a>
   </div>
 </section>
 
@@ -277,9 +283,13 @@ footer .wrap{display:grid;gap:26px}
   <div class="wrap reveal">
     <span class="kicker">Your nest. Your safety.</span>
     <h2>Everyone searches their own address first. Go ahead.</h2>
-    <p>Free search · Any US address · iPhone</p>
-    <!-- TODO: replace # with your real App Store URL when live -->
-    <a class="btn" href="#" aria-label="Download SafeNest on the App Store">Download on the App&nbsp;Store</a>
+    <p>Any US address · $6.99 · Delivered by email as a PDF</p>
+    <a class="btn" href="./report.html">Get a neighborhood safety report</a>
+    <!-- The iOS app is not on the App Store yet. This is deliberately NOT a link:
+         a button that silently does nothing is worse than an honest sentence.
+         When Apple clears the build, this becomes the real App Store URL and the
+         Smart App Banner ships site-wide in the same commit (see F3 branch). -->
+    <p class="soon-badge" aria-label="iOS app coming soon to the App Store">iOS app coming soon to the App&nbsp;Store</p>
   </div>
 </section>
 
