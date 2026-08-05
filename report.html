@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get a neighborhood safety report — SafeNest</title>
+<meta name="description" content="A full neighborhood safety report for any US address — crime, registered offender counts, schools, flood and disaster history, air quality, and more. $6.99, delivered by email as a PDF.">
+<link rel="canonical" href="https://safenest.lol/report.html">
+<link rel="icon" type="image/png" href="./shield.png">
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xib107yb3s");
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1B2A44;--navy-deep:#121D31;--gold:#B08D57;--gold-light:#D4B270;--teal:#1F8378;--teal-dark:#166B61;--ivory:#F4EFE5;--ink:#22314E;--body:#4A5670;--muted:#93A0B8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Lato',sans-serif;background:var(--ivory);color:var(--ink);line-height:1.7;font-size:17px}
+h1,h2,h3{font-family:'Playfair Display',serif;color:var(--navy);line-height:1.2}
+a{color:var(--teal)}
+img{max-width:100%;height:auto;display:block}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;z-index:50;background:rgba(18,29,49,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(176,141,87,.25)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{height:36px}
+.brand span{font-family:'Playfair Display',serif;font-weight:700;font-size:20px;color:var(--ivory)}
+.brand b{color:var(--gold-light)}
+nav a.back{color:var(--gold-light);text-decoration:none;font-size:15px}
+header.page{background:linear-gradient(180deg,var(--navy),var(--navy-deep));padding:60px 0 54px;text-align:center}
+header.page .kicker{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-light);font-weight:700}
+header.page h1{color:var(--ivory);font-size:clamp(30px,4.5vw,46px);margin-top:14px}
+header.page p.sub{color:#B9C4D6;margin-top:14px;font-size:18px}
+main{padding:54px 0 80px}
+.card{background:#fff;border:1px solid rgba(27,42,68,.12);border-radius:18px;padding:30px 32px;margin-bottom:22px;box-shadow:0 8px 26px rgba(27,42,68,.06)}
+.card h2{font-size:24px;margin-bottom:12px}
+.card p{color:var(--body);margin-bottom:12px}
+.card p:last-child{margin-bottom:0}
+
+/* buy form */
+.buy{background:var(--navy);color:var(--ivory);border:none}
+.buy h2{color:var(--ivory)}
+.buy p{color:#B9C4D6}
+.price{display:flex;align-items:baseline;gap:10px;margin-bottom:18px}
+.price b{font-family:'Playfair Display',serif;font-size:40px;color:var(--gold-light);line-height:1}
+.price span{color:#B9C4D6;font-size:15px}
+form.buy-form{display:flex;flex-direction:column;gap:12px}
+label{font-size:14px;color:#B9C4D6;font-weight:700;letter-spacing:.04em}
+input[type=text]{width:100%;padding:15px 16px;border-radius:12px;border:1px solid rgba(244,239,229,.25);background:rgba(244,239,229,.07);color:var(--ivory);font-size:17px;font-family:'Lato',sans-serif}
+input[type=text]::placeholder{color:#7C8AA3}
+input[type=text]:focus{outline:none;border-color:var(--gold-light);background:rgba(244,239,229,.12)}
+button.go{background:var(--teal);color:#fff;border:none;font-family:'Lato',sans-serif;font-weight:700;font-size:17px;padding:16px 30px;border-radius:999px;cursor:pointer;transition:background .2s}
+button.go:hover{background:var(--teal-dark)}
+button.go[disabled]{opacity:.6;cursor:default}
+.note{font-size:14px;color:var(--muted);line-height:1.6}
+.err{background:rgba(180,60,60,.15);border:1px solid rgba(220,120,120,.5);color:#FFD9D9;padding:12px 14px;border-radius:10px;font-size:15px;display:none}
+.err.show{display:block}
+
+/* inside list */
+ul.inside{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 22px;margin:6px 0 0}
+ul.inside li{padding-left:26px;position:relative;color:var(--body);font-size:16px}
+ul.inside li:before{content:"";position:absolute;left:0;top:9px;width:9px;height:9px;border-radius:50%;background:var(--teal)}
+.sample-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:6px}
+.btn-ghost{display:inline-block;border:1.5px solid var(--teal);color:var(--teal);text-decoration:none;font-weight:700;padding:12px 26px;border-radius:999px}
+.btn-ghost:hover{background:var(--teal);color:#fff}
+.legal{font-size:13.5px;color:var(--muted);line-height:1.65}
+.legal strong{color:var(--body)}
+footer{background:var(--navy-deep);padding:34px 0;color:#6E7C96;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer a{color:#93A0B8;text-decoration:none;margin-left:20px}
+footer a:hover{color:var(--gold-light)}
+@media(max-width:560px){footer .wrap{flex-direction:column}footer a{margin:0 18px 0 0}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="./index.html"><img src="./shield.png" alt=""><span>Safe<b>Nest</b></span></a>
+    <a class="back" href="./index.html">← Back to safenest</a>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="wrap">
+    <span class="kicker">Neighborhood safety report</span>
+    <h1>Know the neighborhood before you sign.</h1>
+    <p class="sub">A full report for any US address — delivered to your inbox as a PDF.</p>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <section class="card buy">
+    <h2>Get a neighborhood safety report</h2>
+    <div class="price"><b>$6.99</b><span>one address · one-time · no subscription</span></div>
+    <form class="buy-form" id="buy" novalidate>
+      <label for="address">Property address</label>
+      <input type="text" id="address" name="address" autocomplete="street-address"
+             placeholder="1201 3rd Ave, Seattle, WA 98101" maxlength="200" required>
+      <div class="err" id="err" role="alert"></div>
+      <button class="go" type="submit" id="go">Continue to secure checkout</button>
+    </form>
+    <p class="note" style="margin-top:16px">
+      Payment via Stripe. If a critical source can't be reached, you get the honest report and an automatic refund.
+    </p>
+    <p class="note">Your report is emailed when it's ready — usually within about 5 minutes.</p>
+  </section>
+
+  <section class="card">
+    <h2>What's in the report</h2>
+    <p>Ten data sources, gathered for the address you enter and assembled into one PDF.
+       Every section says plainly where its data came from — and says so when a source
+       couldn't be reached.</p>
+    <ul class="inside">
+      <li>Crime statistics and grade</li>
+      <li>Registered offender counts by distance</li>
+      <li>Nearby schools with SafeNest Scores</li>
+      <li>Flood &amp; disaster history</li>
+      <li>Natural hazard risk</li>
+      <li>Air quality</li>
+      <li>EPA toxic and hazardous-waste sites</li>
+      <li>Neighborhood profile from census data</li>
+      <li>Estimated property tax</li>
+      <li>Parks, playgrounds and bike infrastructure</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>See one first</h2>
+    <p>This is a real, complete report for a real address — the same document you'd
+       receive, nothing removed.</p>
+    <div class="sample-row">
+      <a class="btn-ghost" href="./sample-report.pdf" target="_blank" rel="noopener">See a full sample report (PDF)</a>
+      <span class="note">1201 3rd Ave, Seattle, WA · 7 pages</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>What a report is, and isn't</h2>
+    <p class="legal">
+      SafeNest grades are algorithmic summaries of public records — informational
+      opinions, not statements of fact and not guarantees about any place. The crime
+      grade is <strong>a city-wide average of reported crime. It does not describe a
+      specific street or address.</strong>
+    </p>
+    <p class="legal">
+      Registered offenders are shown as <strong>counts by distance band, never names,
+      photos, or addresses</strong>. They are candidate matches from public registries
+      and may not reflect current status, address, or classification; a listing does not
+      confirm any individual's identity, which can be verified through your state's
+      official registry.
+    </p>
+    <p class="legal">
+      <strong>This report is not a consumer report or background check on any individual
+      and may not be used for employment, tenancy, credit, or any FCRA-governed
+      purpose.</strong> Using this information to harass, threaten, intimidate, or commit
+      any crime against any person is illegal under federal and state law.
+    </p>
+    <p class="legal">
+      Flood coverage is a record of federal disaster declarations for the area — not a
+      parcel-level flood-zone determination. Check FEMA's flood maps and flood-insurance
+      requirements for a specific address.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Questions</h2>
+    <p>Email <a href="mailto:support@safenest.lol">support@safenest.lol</a> — it reaches a
+       person. See also our <a href="./methodology.html">methodology</a>,
+       <a href="./terms.html">terms</a>, and <a href="./privacy.html">privacy policy</a>.</p>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 SafeNest. All rights reserved.</span>
+    <span>
+      <a href="./report.html">Get a report</a>
+      <a href="./cities.html">City Reports</a>
+      <a href="./methodology.html">Methodology</a>
+      <a href="./support.html">Support</a>
+      <a href="./privacy.html">Privacy</a>
+      <a href="./terms.html">Terms</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var API = "https://safenest-proxy.wak3upsociety.workers.dev/api/checkout";
+  var form = document.getElementById("buy");
+  var input = document.getElementById("address");
+  var btn = document.getElementById("go");
+  var err = document.getElementById("err");
+
+  // Prefill from ?address= so a city page can hand the address across.
+  try {
+    var q = new URLSearchParams(location.search).get("address");
+    if (q) input.value = q.slice(0, 200);
+  } catch (e) {}
+
+  function fail(msg){
+    err.textContent = msg;
+    err.className = "err show";
+    btn.disabled = false;
+    btn.textContent = "Continue to secure checkout";
+  }
+
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var address = (input.value || "").trim();
+    err.className = "err";
+    if (!address) { fail("Please enter the property address."); return; }
+
+    btn.disabled = true;
+    btn.textContent = "Starting checkout…";
+
+    fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ address: address, tier: "single", radius_miles: 1 })
+    })
+    .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, body: j }; }); })
+    .then(function(res){
+      if (res.ok && res.body && res.body.url) { window.location.href = res.body.url; return; }
+      fail((res.body && res.body.error) || "Could not start checkout. Please try again.");
+    })
+    .catch(function(){ fail("Could not reach checkout. Check your connection and try again."); });
+  });
+})();
+</script>
+
+</body>
+</html>
