@@ -79,6 +79,13 @@ button.go[disabled]{opacity:.6;cursor:default}
 
 
 /* ── WS-G environment ─────────────────────────────────────────────────── */
+.mapwrap{position:relative}
+.map-recentre{position:absolute;left:12px;bottom:12px;z-index:5;background:rgba(255,255,255,.94);
+  border:1px solid rgba(27,42,68,.2);border-radius:999px;padding:8px 16px;font:inherit;font-size:13.5px;
+  font-weight:700;color:var(--navy);cursor:pointer;box-shadow:0 2px 8px rgba(18,29,49,.18);min-height:36px}
+.map-recentre:hover{background:#fff}
+/* MapLibre's cooperative-gesture hint, restyled to the page rather than left default */
+.maplibregl-cooperative-gesture-screen{font-family:'Lato',sans-serif;background:rgba(18,29,49,.72)}
 .mapwrap{border-radius:16px;overflow:hidden;border:1px solid rgba(27,42,68,.18);
   box-shadow:0 10px 30px rgba(27,42,68,.10);margin-top:18px}
 #map{width:100%;height:340px;background:#E9E1D2}
@@ -521,9 +528,38 @@ footer a:hover{color:var(--gold-light)}
       mapObj = new maplibregl.Map({
         container: "map",
         style: "https://tiles.openfreemap.org/styles/positron",
-        center: [lng, lat], zoom: 13.4, attributionControl: false
+        center: [lng, lat], zoom: 13.4, attributionControl: false,
+        // Pan, zoom and pinch are MapLibre defaults and stay on: this is
+        // interaction with GEOGRAPHY, not with data. Nothing locked becomes
+        // visible by panning, because nothing locked is on the map.
+        //
+        // COOPERATIVE GESTURES is the one thing worth overriding. Without it a
+        // desktop scroll over the map hijacks the page — the visitor tries to
+        // reach the checkout button and zooms out to the Pacific instead — and
+        // a one-finger mobile drag traps the page inside the map. With it:
+        // ctrl/⌘+scroll zooms on desktop, two fingers pan on mobile, and a
+        // plain scroll passes through to the page. MapLibre draws its own
+        // "use ctrl + scroll to zoom" hint, so the affordance is explained
+        // rather than discovered.
+        cooperativeGestures: true,
+        dragRotate: false,          // a north-up map is easier to read against the PDF
+        pitchWithRotate: false,
+        touchPitch: false,
+        maxZoom: 17,                // past this the basemap has nothing more to say
+        minZoom: 9                  // and below it the ring stops being meaningful
       });
       mapObj.addControl(new maplibregl.NavigationControl({showCompass:false}), "top-right");
+      // Back to the address, for when panning has wandered. The pin and ring are
+      // geo-anchored (a GeoJSON source and a LngLat marker), so they stay put
+      // through any pan or zoom without re-projection on our side.
+      var recentre = document.createElement("button");
+      recentre.type = "button"; recentre.className = "map-recentre";
+      recentre.textContent = "Re-centre";
+      recentre.setAttribute("aria-label", "Re-centre the map on this address");
+      recentre.addEventListener("click", function(){
+        mapObj.easeTo({ center: [lng, lat], zoom: 13.4, duration: 500 });
+      });
+      document.querySelector(".mapwrap").appendChild(recentre);
       // MapLibre measures its container ONCE at construction. This one starts
       // inside a hidden section, so it measured zero and fell back to 400x300 —
       // tiles in a strip, blank to the right. A one-shot resize() is not enough
