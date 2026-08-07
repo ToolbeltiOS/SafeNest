@@ -8,6 +8,8 @@
 <link rel="canonical" href="https://safenest.lol/report.html">
 <meta name="apple-itunes-app" content="app-id=6786512308">
 <link rel="icon" type="image/png" href="./shield.png">
+<link rel="stylesheet" href="./vendor/maplibre-gl.css">
+<script src="./vendor/maplibre-gl.js" defer></script>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -74,6 +76,38 @@ button.go[disabled]{opacity:.6;cursor:default}
 .ac-list li:last-child{border-bottom:none}
 .ac-list li small{display:block;color:#6B7890;font-size:13px;margin-top:2px}
 .ac-list li:hover,.ac-list li.sel{background:#EFF6F4}
+
+
+/* ── WS-G environment ─────────────────────────────────────────────────── */
+.mapwrap{border-radius:16px;overflow:hidden;border:1px solid rgba(27,42,68,.18);
+  box-shadow:0 10px 30px rgba(27,42,68,.10);margin-top:18px}
+#map{width:100%;height:340px;background:#E9E1D2}
+.mapattrib{font-size:11.5px;color:#7C8AA3;margin-top:7px;line-height:1.5}
+
+.free-layer{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;margin-top:20px}
+.fl-card{background:#F2F7F5;border:1px solid rgba(31,131,120,.28);border-radius:14px;padding:16px 18px}
+.fl-label{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--teal)}
+.fl-value{font-family:'Playfair Display',serif;font-size:30px;color:var(--navy);line-height:1.1;margin-top:6px;
+  display:flex;align-items:baseline;gap:10px}
+.fl-value .g{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;
+  border-radius:50%;color:#fff;font-size:24px}
+.g-A{background:#2E8B57}.g-B{background:#5AA469}.g-C{background:#C8963E}.g-D{background:#C4703A}.g-F{background:#B4453C}
+.fl-sub{font-size:13.5px;color:var(--body);margin-top:8px;line-height:1.5}
+.fl-src{font-size:12px;color:#7C8AA3;margin-top:8px}
+.fl-card.muted{background:#FBF9F4;border-color:rgba(27,42,68,.14)}
+.fl-card.muted .fl-label{color:var(--gold)}
+
+.locked-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:6px}
+.lk{background:#fff;border:1px solid rgba(27,42,68,.14);border-radius:13px;padding:15px 17px;position:relative}
+.lk-top{display:flex;align-items:center;gap:8px}
+.lk-title{font-weight:700;font-size:15.5px;color:var(--navy)}
+.lk-mark{margin-left:auto;color:#93A0B8;font-size:14px}
+.lk-desc{font-size:13.5px;color:var(--body);margin-top:7px;line-height:1.5}
+.lk-src{font-size:12px;color:#93A0B8;margin-top:7px}
+.lk.absent{background:#FBF9F4}
+.lk.absent .lk-desc{color:#7C8AA3}
+@media(max-width:560px){#map{height:260px}}
 
 /* teaser */
 .teaser h3.cover-h{font-size:17px;margin:22px 0 10px;color:var(--navy)}
@@ -166,19 +200,17 @@ footer a:hover{color:var(--gold-light)}
 
     <p class="note" id="teaser-note"></p>
 
-    <h3 class="cover-h">Your report will cover</h3>
-    <ul class="inside" id="cover-list">
-      <li>Crime statistics and grade</li>
-      <li>Registered offender counts by distance</li>
-      <li>Nearby schools with SafeNest Scores</li>
-      <li>Flood &amp; disaster history</li>
-      <li>Natural hazard risk</li>
-      <li>Air quality</li>
-      <li>EPA toxic and hazardous-waste sites</li>
-      <li>Neighborhood profile from census data</li>
-      <li>Estimated property tax</li>
-      <li>Parks, playgrounds and bike infrastructure</li>
-    </ul>
+    <!-- WS-G free layer. The map shows ONLY what we can stand behind: the
+         basemap, the confirmed address, and the search ring. No presence
+         markers for locked data — a dot we cannot stand behind is data
+         theater, and this is a surface a visitor can screenshot. -->
+    <div class="mapwrap"><div id="map"></div></div>
+    <p class="mapattrib">© OpenFreeMap © OpenMapTiles © OpenStreetMap contributors</p>
+
+    <div class="free-layer" id="free-layer"></div>
+
+    <h3 class="cover-h">In your full report</h3>
+    <div class="locked-grid" id="locked-grid"></div>
     <p class="note">Every section names its source, and says so plainly when a
        source can't be reached for this location.</p>
 
@@ -415,6 +447,129 @@ footer a:hover{color:var(--gold-light)}
       .then(function(){ btn.disabled = false; btn.textContent = "Continue"; });
   }
 
+  // ── WS-G environment ────────────────────────────────────────────────────
+  var FREE_LAYER = WORKER + "/api/free-layer";
+  var mapObj = null;
+
+  // Locked cards. EVERY LINE IS A §11 SURFACE. These are phrased
+  // CAPABILITY-GENERALLY on purpose: a per-address promise ("your report shows
+  // 3 schools") is a claim about data we have not fetched, and the report may
+  // not be able to keep it. Each says what the section IS and names its source.
+  var LOCKED = [
+    ["Crime statistics", "Reported violent and property crime for the graded jurisdiction, with the national comparison and trend.", "FBI UCR"],
+    ["Registered offenders", "Counts by distance band, with the registry's own caveats. Never names or photos.", "State registries"],
+    ["Schools", "Nearby public schools with SafeNest Scores and state percentiles.", "NCES"],
+    ["Flood & disaster history", "Federal disaster declarations recorded for this county, dated and named.", "FEMA declarations"],
+    ["Natural hazard risk", "Per-peril risk ratings for this county — wildfire, earthquake, flood, wind and more.", "FEMA National Risk Index"],
+    ["Air quality", "The nearest monitor's AQI and dominant pollutant, where a monitor covers this area.", "EPA AirNow"],
+    ["Toxic sites", "EPA-tracked Superfund, TRI and hazardous-waste facilities near the address.", "EPA"],
+    ["Neighborhood profile", "Income, home value, rent burden and more for the ZIP-code area.", "US Census ACS"],
+    ["Estimated property tax", "An estimate from the area's median home value and the state's effective rate.", "Census + state rates"],
+    ["Parks & bike infrastructure", "Playgrounds, parks and bike lanes mapped near the address.", "OpenStreetMap"]
+  ];
+
+  function esc2(s){ return String(s).replace(/[&<>"]/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  function renderLocked(){
+    document.getElementById("locked-grid").innerHTML = LOCKED.map(function(c){
+      return '<div class="lk"><div class="lk-top"><span class="lk-title">' + esc2(c[0]) +
+             '</span><span class="lk-mark" aria-label="Included in the full report">&#128274;</span></div>' +
+             '<div class="lk-desc">' + esc2(c[1]) + '</div>' +
+             '<div class="lk-src">Source: ' + esc2(c[2]) + '</div></div>';
+    }).join("");
+  }
+
+  function renderFreeLayer(d, resolvedCity){
+    var el = document.getElementById("free-layer");
+    var cards = [];
+
+    // CITY GRADE. Shown free where we have one. Where we do not, the card says
+    // so plainly — the teaser must never out-promise the report, and the report
+    // itself words an ungraded city as unavailable.
+    if (d && d.grade) {
+      cards.push('<div class="fl-card"><div class="fl-label">City safety grade</div>' +
+        '<div class="fl-value"><span class="g g-' + esc2(d.grade) + '">' + esc2(d.grade) + '</span></div>' +
+        '<div class="fl-sub">A city-wide average of reported crime. It does not describe a specific street or address.</div>' +
+        '<div class="fl-src">Source: FBI UCR</div></div>');
+    } else {
+      cards.push('<div class="fl-card muted"><div class="fl-label">City safety grade</div>' +
+        '<div class="fl-sub" style="margin-top:10px">Not available for ' + esc2(resolvedCity || "this city") +
+        ' — it is not in the graded-cities dataset.</div>' +
+        '<div class="fl-src">Source: FBI UCR</div></div>');
+    }
+
+    // OFFENDER COUNT. Cache-read only. On a hit: banded, labelled approximate.
+    // On a miss: no number at all. A fabricated or stale-adjacent number is
+    // worse than none, and the miss line still names what the report delivers.
+    if (d && d.offenders && d.offenders.banded > 0) {
+      cards.push('<div class="fl-card"><div class="fl-label">Registered offenders</div>' +
+        '<div class="fl-value">~' + d.offenders.banded + '</div>' +
+        '<div class="fl-sub">approximate — within 1 mile. Exact count and locations in the full report.</div>' +
+        '<div class="fl-src">Source: state registries</div></div>');
+    } else {
+      cards.push('<div class="fl-card muted"><div class="fl-label">Registered offenders</div>' +
+        '<div class="fl-sub" style="margin-top:10px">Registered offender count and locations — included in your full report.</div>' +
+        '<div class="fl-src">Source: state registries</div></div>');
+    }
+    el.innerHTML = cards.join("");
+  }
+
+  function drawMap(lat, lng){
+    if (typeof maplibregl === "undefined" || mapObj) return;
+    try {
+      mapObj = new maplibregl.Map({
+        container: "map",
+        style: "https://tiles.openfreemap.org/styles/positron",
+        center: [lng, lat], zoom: 13.4, attributionControl: false
+      });
+      mapObj.addControl(new maplibregl.NavigationControl({showCompass:false}), "top-right");
+      // MapLibre measures its container ONCE at construction. This one starts
+      // inside a hidden section, so it measured zero and fell back to 400x300 —
+      // tiles in a strip, blank to the right. A one-shot resize() is not enough
+      // (it can fire before layout settles); observing the container is, and it
+      // also survives orientation changes and the mobile URL bar.
+      if (typeof ResizeObserver !== "undefined") {
+        new ResizeObserver(function(){ try { mapObj.resize(); } catch(e){} })
+          .observe(document.getElementById("map"));
+      }
+      mapObj.on("load", function(){
+        mapObj.resize();
+        // The radius ring — a geodesic circle approximated in degrees.
+        var pts = [], R = 1 / 69.0;              // ~1 mile in degrees latitude
+        for (var i = 0; i <= 64; i++) {
+          var a = (i / 64) * 2 * Math.PI;
+          pts.push([lng + (R * Math.cos(a)) / Math.cos(lat * Math.PI / 180),
+                    lat + R * Math.sin(a)]);
+        }
+        mapObj.addSource("ring", {type:"geojson", data:{type:"Feature",
+          geometry:{type:"Polygon", coordinates:[pts]}}});
+        // Brand colours live ONLY in the data layer; the basemap stays neutral.
+        mapObj.addLayer({id:"ring-fill", type:"fill", source:"ring",
+          paint:{"fill-color":"#1F8378","fill-opacity":0.10}});
+        mapObj.addLayer({id:"ring-line", type:"line", source:"ring",
+          paint:{"line-color":"#1F8378","line-width":2,"line-dasharray":[2,2]}});
+        var el = document.createElement("div");
+        el.style.cssText = "width:18px;height:18px;border-radius:50%;background:#B08D57;" +
+                           "border:3px solid #fff;box-shadow:0 2px 8px rgba(18,29,49,.5)";
+        new maplibregl.Marker({element: el}).setLngLat([lng, lat]).addTo(mapObj);
+      });
+    } catch (e) { /* the basemap is the only part that depends on them */ }
+  }
+
+  function loadEnvironment(d){
+    renderLocked();
+    var q = "?radius=1";
+    if (d && d.city) q += "&city=" + encodeURIComponent(d.city);
+    if (d && d.state) q += "&state=" + encodeURIComponent(d.state);
+    if (d && d.lat != null) q += "&lat=" + d.lat + "&lng=" + d.lng;
+    fetch(FREE_LAYER + q)
+      .then(function(r){ return r.json(); })
+      .then(function(fl){ renderFreeLayer(fl, d && d.city); })
+      .catch(function(){ renderFreeLayer(null, d && d.city); });
+    if (d && d.lat != null) drawMap(d.lat, d.lng);
+  }
+
   function showTeaser(rawAddress, d){
     if (d && d.resolved && d.address) {
       chosenAddress = d.address;                       // the string the report is built on
@@ -437,6 +592,10 @@ footer a:hover{color:var(--gold-light)}
     }
     err2.className = "err";
     teaser.hidden = false;
+    // The map must be built AFTER the section is visible: MapLibre measures its
+    // container at construction, and a hidden container measures zero — which
+    // renders tiles into a strip and leaves the rest blank.
+    loadEnvironment(d && d.resolved ? d : null);
     teaser.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
