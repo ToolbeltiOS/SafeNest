@@ -79,6 +79,15 @@ button.go[disabled]{opacity:.6;cursor:default}
 
 
 /* ── WS-G environment ─────────────────────────────────────────────────── */
+.radius-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:20px}
+.radius-label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--teal)}
+.radius-seg{display:inline-flex;background:#EDE7DA;border-radius:999px;padding:4px;gap:2px}
+.radius-seg button{appearance:none;border:none;background:none;font:inherit;font-size:14.5px;font-weight:700;
+  color:var(--body);padding:9px 16px;border-radius:999px;cursor:pointer;min-height:40px;min-width:56px;
+  transition:background .15s,color .15s}
+.radius-seg button[aria-pressed="true"]{background:var(--teal);color:#fff}
+.radius-seg button:not([aria-pressed="true"]):hover{background:rgba(31,131,120,.12)}
+@media(max-width:560px){.radius-seg{width:100%;justify-content:space-between}.radius-seg button{flex:1;padding:9px 4px}}
 .mapwrap{position:relative}
 .map-recentre{position:absolute;left:12px;bottom:12px;z-index:5;background:rgba(255,255,255,.94);
   border:1px solid rgba(27,42,68,.2);border-radius:999px;padding:8px 16px;font:inherit;font-size:13.5px;
@@ -211,6 +220,13 @@ footer a:hover{color:var(--gold-light)}
          basemap, the confirmed address, and the search ring. No presence
          markers for locked data — a dot we cannot stand behind is data
          theater, and this is a surface a visitor can screenshot. -->
+    <!-- RADIUS. The app's exact four options (RadiusOption: 0.5/1/2/5), default
+         1, reset per search — parity, because radius is a user-visible number
+         and differing would invite the question of which is the real product. -->
+    <div class="radius-row" role="group" aria-label="Search radius">
+      <span class="radius-label">Search radius</span>
+      <div class="radius-seg" id="radius-seg"></div>
+    </div>
     <div class="mapwrap"><div id="map"></div></div>
     <p class="mapattrib">© OpenFreeMap © OpenMapTiles © OpenStreetMap contributors</p>
 
@@ -456,7 +472,46 @@ footer a:hover{color:var(--gold-light)}
 
   // ── WS-G environment ────────────────────────────────────────────────────
   var FREE_LAYER = WORKER + "/api/free-layer";
-  var mapObj = null;
+  var mapObj = null, ringCenter = null, lastGeo = null;
+
+  // The app's RadiusOption, verbatim. Default 1, and RESET PER SEARCH — the app
+  // does the same ("New search resets radius to 1 mi"), so a radius chosen for
+  // one address never silently follows you to the next one.
+  // Two forms per option, because English needs both: `phrase` is the noun
+  // ("within 2 miles") and `adj` is the attributive ("your 2-mile report").
+  // Using one for both produced "your 2 miles report", which a screenshot
+  // caught.
+  var RADII = [
+    { v: 0.5, label: "\u00BD mi", phrase: "\u00BD mile", adj: "\u00BD-mile" },
+    { v: 1,   label: "1 mi",  phrase: "1 mile",   adj: "1-mile" },
+    { v: 2,   label: "2 mi",  phrase: "2 miles",  adj: "2-mile" },
+    { v: 5,   label: "5 mi",  phrase: "5 miles",  adj: "5-mile" }
+  ];
+  var radius = 1;
+  function radiusOpt(v){
+    for (var i = 0; i < RADII.length; i++) if (RADII[i].v === v) return RADII[i];
+    return { phrase: v + " miles", adj: v + "-mile" };
+  }
+  function radiusPhrase(v){ return radiusOpt(v).phrase; }
+  function radiusAdj(v){ return radiusOpt(v).adj; }
+
+  function renderRadius(){
+    var seg = document.getElementById("radius-seg");
+    seg.innerHTML = RADII.map(function(r){
+      return '<button type="button" data-r="' + r.v + '" aria-pressed="' +
+             (r.v === radius) + '">' + r.label + "</button>";
+    }).join("");
+    Array.prototype.forEach.call(seg.children, function(b){
+      b.addEventListener("click", function(){
+        var v = parseFloat(b.dataset.r);
+        if (v === radius) return;
+        radius = v;
+        renderRadius();
+        drawRing();                       // the ring must show what is being bought
+        if (lastGeo) fetchFreeLayer(lastGeo);
+      });
+    });
+  }
 
   // Locked cards. EVERY LINE IS A §11 SURFACE. These are phrased
   // CAPABILITY-GENERALLY on purpose: a per-address promise ("your report shows
@@ -509,10 +564,23 @@ footer a:hover{color:var(--gold-light)}
     // OFFENDER COUNT. Cache-read only. On a hit: banded, labelled approximate.
     // On a miss: no number at all. A fabricated or stale-adjacent number is
     // worse than none, and the miss line still names what the report delivers.
+    // RIDER 2 — the card explains itself at every radius.
+    //
+    // The cache is keyed on radius (off:lat:lng:R) and only 1-mile payloads
+    // exist, so any other radius MISSES by construction. That is correct — but
+    // a number vanishing when you tap "2 mi" reads as broken software unless
+    // the card says why. So the miss has two voices: the plain one, and the
+    // one that names the radius mismatch it is actually explaining.
     if (d && d.offenders && d.offenders.banded > 0) {
       cards.push('<div class="fl-card"><div class="fl-label">Registered offenders</div>' +
         '<div class="fl-value">~' + d.offenders.banded + '</div>' +
-        '<div class="fl-sub">approximate — within 1 mile. Exact count and locations in the full report.</div>' +
+        '<div class="fl-sub">approximate — within ' + esc2(radiusPhrase(radius)) +
+        '. Exact count and locations in the full report.</div>' +
+        '<div class="fl-src">Source: state registries</div></div>');
+    } else if (radius !== 1) {
+      cards.push('<div class="fl-card muted"><div class="fl-label">Registered offenders</div>' +
+        '<div class="fl-sub" style="margin-top:10px">Count shown for 1-mile searches — your ' +
+        esc2(radiusAdj(radius)) + ' report will include the exact count and locations.</div>' +
         '<div class="fl-src">Source: state registries</div></div>');
     } else {
       cards.push('<div class="fl-card muted"><div class="fl-label">Registered offenders</div>' +
@@ -522,7 +590,43 @@ footer a:hover{color:var(--gold-light)}
     el.innerHTML = cards.join("");
   }
 
+  // The ring is redrawn on every radius change, not rebuilt: same source id,
+  // new geometry. RIDER 1 — the map must show what the buyer is buying. A
+  // 5-mile purchase confirmed against a 1-mile ring is a drift bug waiting for
+  // a complaint.
+  function ringGeoJSON(lat, lng, miles){
+    var pts = [], R = miles / 69.0;      // 1 deg latitude ~ 69 miles
+    for (var i = 0; i <= 96; i++) {
+      var a = (i / 96) * 2 * Math.PI;
+      pts.push([lng + (R * Math.cos(a)) / Math.cos(lat * Math.PI / 180),
+                lat + R * Math.sin(a)]);
+    }
+    return { type: "Feature", geometry: { type: "Polygon", coordinates: [pts] } };
+  }
+
+  function drawRing(){
+    if (!mapObj || !ringCenter || !mapObj.isStyleLoaded()) return;
+    var data = ringGeoJSON(ringCenter[1], ringCenter[0], radius);
+    var src = mapObj.getSource("ring");
+    if (src) { src.setData(data); }
+    else {
+      mapObj.addSource("ring", { type: "geojson", data: data });
+      // Brand colours live ONLY in the data layer; the basemap stays neutral.
+      mapObj.addLayer({ id: "ring-fill", type: "fill", source: "ring",
+        paint: { "fill-color": "#1F8378", "fill-opacity": 0.10 } });
+      mapObj.addLayer({ id: "ring-line", type: "line", source: "ring",
+        paint: { "line-color": "#1F8378", "line-width": 2, "line-dasharray": [2, 2] } });
+    }
+    // Keep the whole ring in frame — a 5-mile ring off the edge of a 13.4-zoom
+    // map would be worse than no ring at all.
+    mapObj.fitBounds(
+      [[ringCenter[0] - radius / 45, ringCenter[1] - radius / 60],
+       [ringCenter[0] + radius / 45, ringCenter[1] + radius / 60]],
+      { padding: 26, duration: 450, maxZoom: 15 });
+  }
+
   function drawMap(lat, lng){
+    ringCenter = [lng, lat];
     if (typeof maplibregl === "undefined" || mapObj) return;
     try {
       mapObj = new maplibregl.Map({
@@ -557,7 +661,7 @@ footer a:hover{color:var(--gold-light)}
       recentre.textContent = "Re-centre";
       recentre.setAttribute("aria-label", "Re-centre the map on this address");
       recentre.addEventListener("click", function(){
-        mapObj.easeTo({ center: [lng, lat], zoom: 13.4, duration: 500 });
+        drawRing();   // re-centre means "show me my ring again", at the chosen radius
       });
       document.querySelector(".mapwrap").appendChild(recentre);
       // MapLibre measures its container ONCE at construction. This one starts
@@ -571,20 +675,7 @@ footer a:hover{color:var(--gold-light)}
       }
       mapObj.on("load", function(){
         mapObj.resize();
-        // The radius ring — a geodesic circle approximated in degrees.
-        var pts = [], R = 1 / 69.0;              // ~1 mile in degrees latitude
-        for (var i = 0; i <= 64; i++) {
-          var a = (i / 64) * 2 * Math.PI;
-          pts.push([lng + (R * Math.cos(a)) / Math.cos(lat * Math.PI / 180),
-                    lat + R * Math.sin(a)]);
-        }
-        mapObj.addSource("ring", {type:"geojson", data:{type:"Feature",
-          geometry:{type:"Polygon", coordinates:[pts]}}});
-        // Brand colours live ONLY in the data layer; the basemap stays neutral.
-        mapObj.addLayer({id:"ring-fill", type:"fill", source:"ring",
-          paint:{"fill-color":"#1F8378","fill-opacity":0.10}});
-        mapObj.addLayer({id:"ring-line", type:"line", source:"ring",
-          paint:{"line-color":"#1F8378","line-width":2,"line-dasharray":[2,2]}});
+        drawRing();
         var el = document.createElement("div");
         el.style.cssText = "width:18px;height:18px;border-radius:50%;background:#B08D57;" +
                            "border:3px solid #fff;box-shadow:0 2px 8px rgba(18,29,49,.5)";
@@ -593,9 +684,8 @@ footer a:hover{color:var(--gold-light)}
     } catch (e) { /* the basemap is the only part that depends on them */ }
   }
 
-  function loadEnvironment(d){
-    renderLocked();
-    var q = "?radius=1";
+  function fetchFreeLayer(d){
+    var q = "?radius=" + radius;
     if (d && d.city) q += "&city=" + encodeURIComponent(d.city);
     if (d && d.state) q += "&state=" + encodeURIComponent(d.state);
     if (d && d.lat != null) q += "&lat=" + d.lat + "&lng=" + d.lng;
@@ -603,6 +693,14 @@ footer a:hover{color:var(--gold-light)}
       .then(function(r){ return r.json(); })
       .then(function(fl){ renderFreeLayer(fl, d && d.city); })
       .catch(function(){ renderFreeLayer(null, d && d.city); });
+  }
+
+  function loadEnvironment(d){
+    radius = 1;              // reset per search, exactly as the app does
+    lastGeo = d;
+    renderRadius();
+    renderLocked();
+    fetchFreeLayer(d);
     if (d && d.lat != null) drawMap(d.lat, d.lng);
   }
 
@@ -652,7 +750,7 @@ footer a:hover{color:var(--gold-light)}
     fetch(CHECKOUT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ address: address, tier: "single", radius_miles: 1 })
+      body: JSON.stringify({ address: address, tier: "single", radius_miles: radius })
     })
     .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, body: j }; }); })
     .then(function(res){
