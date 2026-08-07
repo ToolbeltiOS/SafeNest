@@ -546,6 +546,22 @@ footer a:hover{color:var(--gold-light)}
     var el = document.getElementById("free-layer");
     var cards = [];
 
+    // THROTTLED IS NOT "NO DATA", AND MUST NOT LOOK LIKE IT. A rate-limited
+    // response carries grade:null and offenders:null, which would otherwise
+    // render "not available for this city" — a FALSE statement about coverage,
+    // shown to the person deciding whether to buy. We are not saying we lack a
+    // grade; we are saying we will not look right now. Say that instead, and
+    // say plainly that it does not affect what they would receive.
+    if (d && d.throttled) {
+      el.innerHTML =
+        '<div class="fl-card muted" style="grid-column:1/-1">' +
+        '<div class="fl-label">Preview temporarily limited</div>' +
+        '<div class="fl-sub" style="margin-top:10px">Preview temporarily limited — ' +
+        'your report is unaffected. It will still cover everything listed below ' +
+        'for this address.</div></div>';
+      return;
+    }
+
     // CITY GRADE. Shown free where we have one. Where we do not, the card says
     // so plainly — the teaser must never out-promise the report, and the report
     // itself words an ungraded city as unavailable.
