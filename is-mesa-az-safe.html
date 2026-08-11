@@ -31,9 +31,9 @@
   "@type": "FAQPage",
   "mainEntity": [
     {"@type": "Question", "name": "Is Mesa, AZ safe?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Mesa records 483 violent crimes per 100,000 residents, 27% above the US national average of 381. Overall SafeNest grade: C, a city-wide average. Crime varies widely block to block within any city, so a city grade cannot describe a specific street."}},
+      "acceptedAnswer": {"@type": "Answer", "text": "Mesa records 483 violent crimes per 100,000 residents, 27% above the US national average of 381. Overall SafeNest grade: C, a city-wide average of reported crime. It does not describe a specific street or address."}},
     {"@type": "Question", "name": "What is the crime rate in Mesa?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Mesa reports approximately 483 violent crimes and 1465 property crimes per 100,000 residents based on the most recent public data."}},
+      "acceptedAnswer": {"@type": "Answer", "text": "Mesa reports approximately 483 violent crimes and 1465 property crimes per 100,000 residents in 2024, the most recent FBI reporting year in our data."}},
     {"@type": "Question", "name": "Does Mesa have flood risk?",
       "acceptedAnswer": {"@type": "Answer", "text": "SafeNest reports federal disaster declaration history for the area. For Mesa, federal records show 17 FEMA flood disaster declarations for Arizona, most recently in 2024; a specific address may still sit inside or outside a FEMA flood zone, which SafeNest does not determine — check FEMA&#x27;s flood maps for that address."}}
   ]
@@ -56,6 +56,11 @@ nav{position:sticky;top:0;z-index:50;background:rgba(18,29,49,.95);backdrop-filt
 .btn:hover{background:var(--teal-dark)}
 nav .btn{padding:9px 20px;font-size:14px}
 header.city{background:linear-gradient(180deg,var(--navy),var(--navy-deep));padding:60px 0 52px}
+.faq h3{font-size:19px;margin:22px 0 6px}
+.faq p{margin:0 0 6px}
+.studylink{background:#fff;border:1px solid rgba(27,42,68,.14);border-radius:12px;padding:16px 20px}
+header.city .scopenote{font-size:14.5px;line-height:1.6;color:#C7D0DE;margin-top:14px;max-width:62ch}
+header.city .jurisdiction{font-size:14px;line-height:1.6;color:#E8D9BC;background:rgba(176,141,87,.16);border-left:3px solid var(--gold);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:12px;max-width:66ch}
 header.city .kicker{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-light);font-weight:700}
 header.city h1{color:var(--ivory);font-size:clamp(30px,4.4vw,46px);margin:14px 0 10px}
 header.city p{color:#93A0B8;max-width:38em}
@@ -101,6 +106,7 @@ footer a{color:#93A0B8;text-decoration:none;margin-left:18px}
       <div class="stat"><b>1465</b><span>Property / 100k</span></div>
       <div class="stat"><b>6.1/10</b><span>Avg school score</span></div>
     </div>
+    <p class="scopenote">A city-wide average of reported crime. It does not describe a specific street or address. On measured crime, Mesa ranks in the 13th percentile of the 13,216 US jurisdictions SafeNest grades.</p>
   </div>
 </header>
 
@@ -133,10 +139,28 @@ footer a{color:#93A0B8;text-decoration:none;margin-left:18px}
       <div class="cta-pair"><a class="btn" href="./report.html">Get the full safety report for Mesa addresses</a><a class="badge-appstore" href="https://apps.apple.com/app/safenest-know-before-you-move/id6786512308" target="_blank" rel="noopener" aria-label="Download SafeNest on the App Store"><img src="./brand/appstore-badge.svg" width="150" height="50" alt="Download on the App Store"></a></div><p class="cta-alt">Or search any Mesa address free in the iPhone app.</p>
     </div>
 
-    <h2>Other city safety reports</h2>
-    <div class="othercities"><a href="./is-seattle-wa-safe.html">Seattle, WA</a><a href="./is-denver-co-safe.html">Denver, CO</a><a href="./is-oklahoma-city-ok-safe.html">Oklahoma City, OK</a><a href="./is-el-paso-tx-safe.html">El Paso, TX</a><a href="./is-portland-or-safe.html">Portland, OR</a><a href="./is-boston-ma-safe.html">Boston, MA</a><a href="./is-memphis-tn-safe.html">Memphis, TN</a><a href="./is-baltimore-md-safe.html">Baltimore, MD</a></div>
+    <h2>Common questions about safety in Mesa</h2>
+    <div class="faq">
+      <h3>Is Mesa, AZ safe?</h3>
+      <p>Mesa records 483 violent crimes per 100,000 residents, 27% above the US national average of 381. Overall SafeNest grade: C, a city-wide average of reported crime. It does not describe a specific street or address.</p>
+      <h3>What is the crime rate in Mesa?</h3>
+      <p>Mesa reports approximately 483 violent crimes and 1465 property crimes per 100,000 residents in 2024, the most recent FBI reporting year in our data.</p>
+      <h3>Does Mesa have flood risk?</h3>
+      <p>SafeNest reports federal disaster declaration history for the area. For Mesa, federal records show 17 FEMA flood disaster declarations for Arizona, most recently in 2024; a specific address may still sit inside or outside a FEMA flood zone, which SafeNest does not determine — check FEMA&#x27;s flood maps for that address.</p>
+    </div>
 
-    <p class="updated">Data compiled from public sources including FBI crime statistics, FEMA disaster declarations and the FEMA National Risk Index, NCES education data, and state registries. Last updated 2026-08-06. Figures are city-level estimates; verify with primary sources before making decisions. SafeNest is not a consumer reporting agency (see <a href="./terms.html">Terms</a>).</p>
+    <h2>How this page was built</h2>
+    <p class="studylink">Every figure here comes from the same public records behind
+       SafeNest's grading. We published the full method and what it does and doesn&#x27;t
+       support in <a href="./we-graded-13216-american-cities.html">We graded 13,216
+       American cities with FBI data</a> — including where a letter grade means
+       almost nothing. City comparisons: <a href="./safest-cities-in-arizona.html">safest
+       cities in Arizona</a>.</p>
+
+    <h2>Other city safety reports</h2>
+    <div class="othercities"><a href="./is-tucson-az-safe.html">Tucson, AZ</a><a href="./is-raleigh-nc-safe.html">Raleigh, NC</a><a href="./is-miami-fl-safe.html">Miami, FL</a><a href="./is-bakersfield-ca-safe.html">Bakersfield, CA</a><a href="./is-omaha-ne-safe.html">Omaha, NE</a></div>
+
+    <p class="updated">Data compiled from public sources including FBI crime statistics, FEMA disaster declarations and the FEMA National Risk Index, NCES education data, and state registries. Last updated 2026-08-11. Figures are city-level estimates; verify with primary sources before making decisions. SafeNest is not a consumer reporting agency (see <a href="./terms.html">Terms</a>).</p>
 
   </div>
 </main>
