@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SafeNest Research</title>
+    <link>https://safenest.lol/articles.html</link>
+    <atom:link href="https://safenest.lol/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Data studies from SafeNest: what public crime, school and hazard records actually show, and where they fall short.</description>
+    <language>en-us</language>
+    <lastBuildDate>11 Aug 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>We graded 13,216 American cities with FBI data. Here&#x27;s what we found.</title>
+      <link>https://safenest.lol/we-graded-13216-american-cities.html</link>
+      <guid isPermaLink="true">https://safenest.lol/we-graded-13216-american-cities.html</guid>
+      <pubDate>11 Jul 2026 00:00:00 +0000</pubDate>
+      <description>57% of American cities get an A. That isn&#x27;t grade inflation — it&#x27;s what happens when you measure mostly-small municipalities against a national average. A look at the distribution, the 15x gap between the top and bottom bands, and the places where a letter grade means almost nothing.</description>
+    </item>
+  </channel>
+</rss>
