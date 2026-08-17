@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Is Boise, ID Safe in 2024? Crime Rates, Flood Risk & Schools | SafeNest</title>
-<meta name="description" content="Is Boise, ID safe? 2024 data: 294 violent crimes per 100k (23% below the US average), 18 federal flood disasters since 1956, most recently 2024, schools averaging 6.6/10. Address-level safety reports from SafeNest.">
+<title>Is Boise, ID Safe? 2024 FBI Crime Data | SafeNest</title>
+<meta name="description" content="Is Boise, ID safe? 2024 data: 294 violent crimes per 100k (23% below the US average). Address-level safety reports from SafeNest.">
 <meta name="apple-itunes-app" content="app-id=6786512308">
 <link rel="canonical" href="https://safenest.lol/is-boise-id-safe.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="SafeNest">
 <meta property="og:url" content="https://safenest.lol/is-boise-id-safe.html">
 <meta property="og:title" content="Is Boise, ID Safe in 2024? | SafeNest">
-<meta property="og:description" content="294 violent crimes per 100k, 23% below the national average. Crime, flood, schools and offender data for Boise.">
+<meta property="og:description" content="Is Boise, ID safe? 2024 data: 294 violent crimes per 100k (23% below the US average). Address-level safety reports from SafeNest.">
 <meta property="og:image" content="https://safenest.lol/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#1B2A44">
@@ -86,6 +86,68 @@ footer{background:var(--navy-deep);padding:34px 0;color:#6E7C96;font-size:13px}
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 footer a{color:#93A0B8;text-decoration:none;margin-left:18px}
 .cta-pair{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap}.badge-appstore{display:inline-block;line-height:0;margin:12px 0}.badge-appstore img{height:50px;width:auto;display:block}.cta-alt{margin-top:10px;font-size:14px;opacity:.75}</style>
+<script type="application/ld+json" data-safenest="dataset-place">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "SafeNest neighborhood safety data for Boise, ID",
+  "description": "Crime, flood and disaster history, and school scores for Boise, ID, compiled by SafeNest from public federal and state sources.",
+  "url": "https://safenest.lol/is-boise-id-safe.html",
+  "creator": {
+    "@type": "Organization",
+    "name": "SafeNest",
+    "url": "https://safenest.lol/"
+  },
+  "isAccessibleForFree": true,
+  "license": "https://safenest.lol/terms.html",
+  "spatialCoverage": {
+    "@type": "Place",
+    "name": "Boise, ID"
+  },
+  "variableMeasured": [
+    "violent crime rate per 100,000",
+    "property crime rate per 100,000",
+    "FEMA disaster declarations",
+    "SafeNest School Score"
+  ],
+  "isBasedOn": [
+    {
+      "@type": "Dataset",
+      "name": "FBI Crime Data Explorer",
+      "url": "https://cde.ucr.cjis.gov/"
+    },
+    {
+      "@type": "Dataset",
+      "name": "FEMA Disaster Declarations",
+      "url": "https://www.fema.gov/disaster/declarations"
+    },
+    {
+      "@type": "Dataset",
+      "name": "NCES Common Core of Data",
+      "url": "https://nces.ed.gov/ccd/"
+    }
+  ],
+  "temporalCoverage": "2024"
+}
+</script>
+<script type="application/ld+json" data-safenest="place">
+{
+  "@context": "https://schema.org",
+  "@type": "Place",
+  "name": "Boise, ID",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Boise",
+    "addressRegion": "ID",
+    "addressCountry": "US"
+  },
+  "additionalProperty": {
+    "@type": "PropertyValue",
+    "name": "population covered by the reporting agency",
+    "value": 235223
+  }
+}
+</script>
 </head>
 <body>
 <nav>
@@ -113,7 +175,11 @@ footer a{color:#93A0B8;text-decoration:none;margin-left:18px}
 <main>
   <div class="wrap">
 
-    <h2>Crime in Boise vs. the national average</h2>
+    
+<!-- SYNTHESIS:START -->
+<div class="synthesis"><p>Both crime measures sit below the national benchmark, property crime by 43% and violent crime by 23%. The tension is direction: that 294 figure rose 8.9% in the most recent FBI reporting year, a pattern SafeNest classifies as worsening, so the 27th-percentile standing among 13,216 graded jurisdictions describes where Boise has been more than where it is going. Schools show a similar gap between the average and the parts. High schools average 6.7/10 and middle schools 6.5/10 across 76 rated schools, while Frontier Elementary scores 10.0/10. Idaho's 18 federal flood declarations between 1956 and 2024 establish that flooding recurs in the state; they establish nothing about whether one parcel sits in a FEMA zone. Every figure on this page is a city-wide average, and the block-by-block variation underneath it is where a buying decision actually lands.</p></div>
+<!-- SYNTHESIS:END -->
+<h2>Crime in Boise vs. the national average</h2>
     <p>Boise reports 294 violent crimes per 100,000 residents, 23% below the U.S. average of 381, and 1,110 property crimes per 100k versus a national 1,954 (43% below). In the most recent FBI reporting year (2024), the violent crime rate rose 8.9% year over year, a pattern SafeNest classifies as worsening.</p>
     <!-- National baseline columns render the values shipped in cities.json
          (national_violent_per_100k / national_property_per_100k); never hardcode. -->

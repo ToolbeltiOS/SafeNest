@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Is Atlanta, GA Safe in 2023? Crime Rates, Flood Risk & Schools | SafeNest</title>
-<meta name="description" content="Is Atlanta, GA safe? 2023 data: 708 violent crimes per 100k (86% above the US average), 9 federal flood disasters since 1961, most recently 1991, schools averaging 6.0/10. Address-level safety reports from SafeNest.">
+<title>Is Atlanta, GA Safe? 2023 FBI Crime Data | SafeNest</title>
+<meta name="description" content="Is Atlanta, GA safe? 2023 data: 708 violent crimes per 100k (86% above the US average). Address-level safety reports from SafeNest.">
 <meta name="apple-itunes-app" content="app-id=6786512308">
 <link rel="canonical" href="https://safenest.lol/is-atlanta-ga-safe.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="SafeNest">
 <meta property="og:url" content="https://safenest.lol/is-atlanta-ga-safe.html">
 <meta property="og:title" content="Is Atlanta, GA Safe in 2023? | SafeNest">
-<meta property="og:description" content="708 violent crimes per 100k, 86% above the national average. Crime, flood, schools and offender data for Atlanta.">
+<meta property="og:description" content="Is Atlanta, GA safe? 2023 data: 708 violent crimes per 100k (86% above the US average). Address-level safety reports from SafeNest.">
 <meta property="og:image" content="https://safenest.lol/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#1B2A44">
@@ -86,6 +86,68 @@ footer{background:var(--navy-deep);padding:34px 0;color:#6E7C96;font-size:13px}
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 footer a{color:#93A0B8;text-decoration:none;margin-left:18px}
 .cta-pair{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap}.badge-appstore{display:inline-block;line-height:0;margin:12px 0}.badge-appstore img{height:50px;width:auto;display:block}.cta-alt{margin-top:10px;font-size:14px;opacity:.75}</style>
+<script type="application/ld+json" data-safenest="dataset-place">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "SafeNest neighborhood safety data for Atlanta, GA",
+  "description": "Crime, flood and disaster history, and school scores for Atlanta, GA, compiled by SafeNest from public federal and state sources.",
+  "url": "https://safenest.lol/is-atlanta-ga-safe.html",
+  "creator": {
+    "@type": "Organization",
+    "name": "SafeNest",
+    "url": "https://safenest.lol/"
+  },
+  "isAccessibleForFree": true,
+  "license": "https://safenest.lol/terms.html",
+  "spatialCoverage": {
+    "@type": "Place",
+    "name": "Atlanta, GA"
+  },
+  "variableMeasured": [
+    "violent crime rate per 100,000",
+    "property crime rate per 100,000",
+    "FEMA disaster declarations",
+    "SafeNest School Score"
+  ],
+  "isBasedOn": [
+    {
+      "@type": "Dataset",
+      "name": "FBI Crime Data Explorer",
+      "url": "https://cde.ucr.cjis.gov/"
+    },
+    {
+      "@type": "Dataset",
+      "name": "FEMA Disaster Declarations",
+      "url": "https://www.fema.gov/disaster/declarations"
+    },
+    {
+      "@type": "Dataset",
+      "name": "NCES Common Core of Data",
+      "url": "https://nces.ed.gov/ccd/"
+    }
+  ],
+  "temporalCoverage": "2023"
+}
+</script>
+<script type="application/ld+json" data-safenest="place">
+{
+  "@context": "https://schema.org",
+  "@type": "Place",
+  "name": "Atlanta, GA",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Atlanta",
+    "addressRegion": "GA",
+    "addressCountry": "US"
+  },
+  "additionalProperty": {
+    "@type": "PropertyValue",
+    "name": "population covered by the reporting agency",
+    "value": 500212
+  }
+}
+</script>
 </head>
 <body>
 <nav>
@@ -113,7 +175,11 @@ footer a{color:#93A0B8;text-decoration:none;margin-left:18px}
 <main>
   <div class="wrap">
 
-    <h2>Crime in Atlanta vs. the national average</h2>
+    
+<!-- SYNTHESIS:START -->
+<div class="synthesis"><p>Read together, these numbers describe a city moving in two directions at once. Property crime at 3,892 per 100k runs 99% above the national 1,954, and the D grade reflects a 4th-percentile position on measured crime among 13,216 graded jurisdictions. Yet the violent rate fell 16.9% in the 2023 FBI reporting year, which SafeNest classifies as improving. Schools land in the middle at 6.0/10 across 139 rated schools, high schools at 6.2, with Resurgence Hall Middle Academy scoring 9.9 — the range matters more than the average, because a buyer enrolls in one school, not 139. Georgia's 9 federal flood declarations and 19 hurricane or tropical-storm declarations are state-level history, not a parcel determination. Every figure here is a city-wide average; the block you buy on decides what you actually live with.</p></div>
+<!-- SYNTHESIS:END -->
+<h2>Crime in Atlanta vs. the national average</h2>
     <p>Atlanta reports 708 violent crimes per 100,000 residents, 86% above the U.S. average of 381, and 3,892 property crimes per 100k versus a national 1,954 (99% above). In the most recent FBI reporting year (2023), the violent crime rate fell 16.9% year over year, a pattern SafeNest classifies as improving.</p>
     <!-- National baseline columns render the values shipped in cities.json
          (national_violent_per_100k / national_property_per_100k); never hardcode. -->
