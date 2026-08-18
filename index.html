@@ -78,29 +78,6 @@ body{
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 
-/* ================= PRELOADER (ivory) ================= */
-#loader{
-  position:fixed;inset:0;z-index:1000;background:var(--ivory);
-  display:flex;align-items:flex-end;justify-content:space-between;
-  padding:clamp(24px,4vw,48px);
-}
-#loader .load-count{
-  font-family:var(--serif);font-size:clamp(80px,16vw,200px);
-  line-height:.85;color:var(--navy);font-variant-numeric:tabular-nums;
-}
-#loader .load-count small{font-size:.22em;color:var(--gold);font-family:var(--mono);vertical-align:super;letter-spacing:.1em}
-#loader .load-label{
-  font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--body);max-width:220px;text-align:right;line-height:2;
-}
-#loader .load-label b{color:var(--teal-dark);font-weight:500}
-#loader .load-bar{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--line-navy)}
-#loader .load-bar i{display:block;height:100%;background:var(--gold);transform:scaleX(0);transform-origin:left}
-#curtain{
-  position:fixed;inset:0;z-index:999;background:var(--navy);
-  transform:scaleY(0);transform-origin:top;pointer-events:none;
-}
-
 /* ================= CHROME ================= */
 .nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
@@ -108,7 +85,6 @@ img{max-width:100%;display:block}
   padding:0 clamp(20px,4vw,48px);height:72px;
   transition:background .4s,border-color .4s;
   border-bottom:1px solid transparent;color:var(--ivory);
-  opacity:0;
 }
 .nav.scrolled{
   background:rgba(27,42,68,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
@@ -138,7 +114,7 @@ img{max-width:100%;display:block}
 .hud{
   position:fixed;z-index:99;font-family:var(--mono);font-size:11.5px;
   letter-spacing:.16em;color:var(--slate-2);text-transform:uppercase;
-  pointer-events:none;opacity:0;
+  pointer-events:none;
 }
 .hud b{color:var(--slate-1);font-weight:500}
 .hero-mode .hud{color:var(--muted)}
@@ -149,7 +125,7 @@ img{max-width:100%;display:block}
 
 /* ================= BACKDROP + SCENE (fixed, navy) ================= */
 #backdrop{position:fixed;inset:0;z-index:0;background:var(--navy-deep);pointer-events:none}
-#scene{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+#scene{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block;opacity:0;transition:opacity .8s ease}
 
 /* ================= HERO (on navy) ================= */
 .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;color:var(--ivory)}
@@ -162,21 +138,21 @@ img{max-width:100%;display:block}
 .hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:120px clamp(20px,4vw,48px) 0;width:100%;text-align:center}
 .eyebrow{
   font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--gold-light);text-transform:uppercase;
-  display:inline-flex;align-items:center;gap:12px;margin-bottom:28px;opacity:0;
+  display:inline-flex;align-items:center;gap:12px;margin-bottom:28px;
 }
 .eyebrow::before,.eyebrow::after{content:'';width:32px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
 .eyebrow::after{background:linear-gradient(90deg,var(--gold),transparent)}
 h1{font-family:var(--serif);font-weight:500;font-size:clamp(42px,6.8vw,88px);line-height:1.05;letter-spacing:-.01em;margin-bottom:28px}
 h1 em{font-style:italic;font-weight:400;color:var(--gold-light)}
 .mask{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
-.mask>span{display:block;transform:translateY(110%)}
-.hero-sub{font-size:clamp(16px,1.6vw,19px);color:var(--slate-3);max-width:640px;margin:0 auto 40px;line-height:1.65;opacity:0}
-.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;opacity:0}
-.hero-note{font-family:var(--mono);font-size:12.5px;color:var(--muted);letter-spacing:.04em;opacity:0}
+.mask>span{display:block;transform:none}
+.hero-sub{font-size:clamp(16px,1.6vw,19px);color:var(--slate-3);max-width:640px;margin:0 auto 40px;line-height:1.65}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+.hero-note{font-family:var(--mono);font-size:12.5px;color:var(--muted);letter-spacing:.04em}
 .hero-note b{color:var(--slate-3);font-weight:500}
 .scroll-cue{
   position:absolute;bottom:76px;left:50%;transform:translateX(-50%);z-index:3;
-  font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);opacity:0;
+  font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);
 }
 .scroll-cue::after{
   content:'';display:block;width:1px;height:34px;margin:12px auto 0;
@@ -184,6 +160,19 @@ h1 em{font-style:italic;font-weight:400;color:var(--gold-light)}
   animation:cue 1.8s ease-in-out infinite;
 }
 @keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+/* hero intro — pure CSS so nothing gates first paint; h1 animates transform
+   only (never opacity) so the LCP element is visible from the first frame */
+@keyframes heroRise{from{transform:translateY(26px)}to{transform:none}}
+@keyframes heroFade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+h1{animation:heroRise .9s cubic-bezier(.2,.6,.2,1) both}
+.eyebrow{animation:heroFade .8s .1s cubic-bezier(.2,.6,.2,1) both}
+.hero-sub{animation:heroFade .8s .25s cubic-bezier(.2,.6,.2,1) both}
+.hero-ctas{animation:heroFade .8s .4s cubic-bezier(.2,.6,.2,1) both}
+.hero-note{animation:heroFade .8s .5s cubic-bezier(.2,.6,.2,1) both}
+.nav{animation:heroFade .8s .3s both}
+.hud{animation:heroFade .8s .6s both}
+.scroll-cue{animation:heroFade .8s .7s both}
 
 /* ================= CONTENT ================= */
 main{position:relative;z-index:2}
@@ -340,7 +329,7 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
   .nav-link{display:none}
 }
 @media (prefers-reduced-motion:reduce){
-  #loader,#curtain{display:none}
+  h1,.eyebrow,.hero-sub,.hero-ctas,.hero-note,.nav,.hud,.scroll-cue{animation:none !important}
   .nav,.hud,.eyebrow,.hero-sub,.hero-ctas,.hero-note,.scroll-cue{opacity:1 !important}
   .mask>span{transform:none !important}
   .f-media{clip-path:none !important}
@@ -354,13 +343,6 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
 </style>
 </head>
 <body class="hero-mode">
-
-<div id="loader" aria-hidden="true">
-  <div class="load-count"><span id="pct">0</span><small>%</small></div>
-  <div class="load-label">Pulling <b>public records</b><br>Ten sources · One report<br>SafeNest</div>
-  <div class="load-bar"><i id="bar"></i></div>
-</div>
-<div id="curtain" aria-hidden="true"></div>
 
 <nav class="nav" id="nav">
   <a class="nav-logo" href="#top">
@@ -568,7 +550,6 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
   </div>
 </footer>
 
-<script src="./vendor/three.min.js"></script>
 <script src="./vendor/gsap.min.js"></script>
 <script src="./vendor/ScrollTrigger.min.js"></script>
 <script>
@@ -592,13 +573,16 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 24);
   }, {passive:true});
 
-  /* ============ THREE.JS — brand-tinted scene ============ */
+  /* ============ THREE.JS scene — lazy-loaded, off the critical path ============ */
   var canvas = document.getElementById('scene');
   var backdrop = document.getElementById('backdrop');
-  var three = null;
-  try{
+  var three = null, canvasVisible = true;
+
+  function initScene(){
+    var isMobile = window.innerWidth < 768;
+    try{
     var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true});
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile?1.5:1.8));
     var scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x121D31, 0.020); /* --navy-deep */
     var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
@@ -612,11 +596,11 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
     tealFill.position.set(18, 12, -14); scene.add(tealFill);
 
     var seedRand = (function(){ var s=42; return function(){ s=(s*16807)%2147483647; return (s-1)/2147483646; }; })();
-    var GRID=34, SPACING=2.2, STREET=4, cells=[], parks=[];
+    var GRID = isMobile ? 22 : 34, SPACING=2.2, STREET=4, cells=[], parks=[];
     for(var gx=0; gx<GRID; gx++) for(var gz=0; gz<GRID; gz++){
       if(gx%STREET===0 || gz%STREET===0) continue;
       var x=(gx-GRID/2)*SPACING, z=(gz-GRID/2)*SPACING, dist=Math.sqrt(x*x+z*z);
-      if(dist>36) continue;
+      if(dist > (isMobile?26:36)) continue;
       if(seedRand()<0.07){ parks.push({x:x,z:z}); continue; }
       cells.push({x:x,z:z,h:0.5+seedRand()*seedRand()*4.8*(1-dist/44)});
     }
@@ -728,10 +712,12 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
              beacon:beacon, beaconPulse:beaconPulse, incidents:incidents,
              scrub:0, scrubTarget:0, mouseX:0, mouseY:0, targX:0, targY:0};
 
-    window.addEventListener('mousemove', function(e){
-      three.targX=(e.clientX/window.innerWidth-0.5);
-      three.targY=(e.clientY/window.innerHeight-0.5);
-    }, {passive:true});
+    if(!isMobile){
+      window.addEventListener('mousemove', function(e){
+        three.targX=(e.clientX/window.innerWidth-0.5);
+        three.targY=(e.clientY/window.innerHeight-0.5);
+      }, {passive:true});
+    }
   }catch(err){ canvas.style.display='none'; }
 
   function resize3(){
@@ -745,7 +731,7 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
   window.addEventListener('resize', resize3);
 
   var clock3 = new THREE.Clock();
-  var TWO_PI=Math.PI*2, canvasVisible=true;
+  var TWO_PI=Math.PI*2;
   function frame(){
     if(three && canvasVisible){
       resize3();
@@ -790,24 +776,30 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
   }
   requestAnimationFrame(frame);
 
-  /* camera scrub: hero top → chapters end */
-  if(three && !reduced){
-    ScrollTrigger.create({
-      trigger:'#top', start:'top top', endTrigger:'#chapters', end:'bottom top',
-      onUpdate:function(self){ three.scrubTarget = self.progress; }
-    });
+    /* camera scrub: hero top → chapters end */
+    if(three && !reduced){
+      ScrollTrigger.create({
+        trigger:'#top', start:'top top', endTrigger:'#chapters', end:'bottom top',
+        onUpdate:function(self){ three.scrubTarget = self.progress; }
+      });
+    }
+    /* dim the scene while chapters are pinned so the words lead */
+    if(three && !reduced){
+      gsap.fromTo(canvas,{opacity:1},{opacity:0.55,ease:'none',
+        scrollTrigger:{trigger:'#chapters',start:'top 70%',end:'top top',scrub:true}});
+    }
+
+    /* reveal the freshly-built scene (the navy backdrop covered the gap) */
+    canvas.style.opacity='1';
+    ScrollTrigger.refresh();
   }
+
   /* fade the corner HUD + scroll cue out as chapters take over */
   ScrollTrigger.create({
     trigger:'#chapters', start:'top 85%',
     onEnter:function(){ gsap.to(['.hud','.scroll-cue'],{opacity:0,duration:.35,overwrite:'auto'}); },
     onLeaveBack:function(){ gsap.to(['.hud','.scroll-cue'],{opacity:1,duration:.35,overwrite:'auto'}); }
   });
-  /* dim the scene while chapters are pinned so the words lead */
-  if(three && !reduced){
-    gsap.fromTo(canvas,{opacity:1},{opacity:0.55,ease:'none',
-      scrollTrigger:{trigger:'#chapters',start:'top 70%',end:'top top',scrub:true}});
-  }
 
   /* hide scene + navy backdrop once past chapters (ivory body takes over) */
   ScrollTrigger.create({
@@ -822,43 +814,16 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
     }
   });
 
-  /* ============ PRELOADER ============ */
-  var pctEl=document.getElementById('pct'), barEl=document.getElementById('bar');
-  var loaderEl=document.getElementById('loader'), curtain=document.getElementById('curtain');
-
-  function heroIntro(){
-    var tl=gsap.timeline();
-    tl.to('.mask>span',{y:0,duration:1.1,ease:'power4.out',stagger:0.12})
-      .to('.eyebrow',{opacity:1,duration:.8,ease:'power2.out'},'-=0.9')
-      .to('.hero-sub',{opacity:1,y:0,duration:.9,ease:'power2.out'},'-=0.7')
-      .to('.hero-ctas',{opacity:1,duration:.8},'-=0.6')
-      .to('.hero-note',{opacity:1,duration:.8},'-=0.6')
-      .to('.nav',{opacity:1,duration:.8},'-=0.7')
-      .to('.hud',{opacity:1,duration:.8},'-=0.7')
-      .to('.scroll-cue',{opacity:1,duration:.8},'-=0.5');
-  }
-
-  if(reduced){
-    loaderEl.style.display='none';
-    document.querySelectorAll('.mask>span').forEach(function(el){ el.style.transform='none'; });
-  } else {
-    document.body.style.overflow='hidden';
-    var load={v:0};
-    gsap.to(load,{v:100,duration:2.0,ease:'power2.inOut',
-      onUpdate:function(){
-        pctEl.textContent=Math.round(load.v);
-        barEl.style.transform='scaleX('+(load.v/100)+')';
-      },
-      onComplete:function(){
-        var tl=gsap.timeline({onComplete:function(){ document.body.style.overflow=''; ScrollTrigger.refresh(); }});
-        tl.to(curtain,{scaleY:1,duration:.5,ease:'power3.inOut'})
-          .to(loaderEl,{opacity:0,duration:.2,onComplete:function(){loaderEl.style.display='none';}},'-=0.1')
-          .set(curtain,{transformOrigin:'bottom'})
-          .to(curtain,{scaleY:0,duration:.7,ease:'power3.inOut'})
-          .add(heroIntro,'-=0.35');
-      }
+  /* lazy-load three.js after first paint + window load, off the critical path */
+  window.addEventListener('load', function(){
+    var idle = window.requestIdleCallback || function(f){setTimeout(f,200)};
+    idle(function(){
+      var s=document.createElement('script');
+      s.src='./vendor/three.min.js';
+      s.onload=initScene;
+      document.body.appendChild(s);
     });
-  }
+  });
 
   if(reduced) return;
 
