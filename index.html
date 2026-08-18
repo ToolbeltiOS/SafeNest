@@ -168,7 +168,7 @@ img{max-width:100%;display:block}
 .eyebrow::after{background:linear-gradient(90deg,var(--gold),transparent)}
 h1{font-family:var(--serif);font-weight:500;font-size:clamp(42px,6.8vw,88px);line-height:1.05;letter-spacing:-.01em;margin-bottom:28px}
 h1 em{font-style:italic;font-weight:400;color:var(--gold-light)}
-.mask{display:block;overflow:hidden}
+.mask{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
 .mask>span{display:block;transform:translateY(110%)}
 .hero-sub{font-size:clamp(16px,1.6vw,19px);color:var(--slate-3);max-width:640px;margin:0 auto 40px;line-height:1.65;opacity:0}
 .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;opacity:0}
@@ -184,19 +184,6 @@ h1 em{font-style:italic;font-weight:400;color:var(--gold-light)}
   animation:cue 1.8s ease-in-out infinite;
 }
 @keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
-.map-legend{
-  position:absolute;bottom:76px;left:clamp(20px,4vw,48px);z-index:3;
-  display:flex;flex-direction:column;gap:9px;
-  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--muted);opacity:0;
-}
-.map-legend span{display:flex;align-items:center;gap:10px}
-.map-legend i{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-.lg-off{background:#B03A3A;box-shadow:0 0 8px rgba(176,58,58,.7)}
-.lg-crime{background:#C4652A}
-.lg-school{background:var(--teal);box-shadow:inset 0 0 0 1.5px var(--ivory)}
-.lg-radius{background:transparent;border:1.5px solid var(--gold-light)}
-@media(max-width:720px){.map-legend{display:none}}
 
 /* ================= CONTENT ================= */
 main{position:relative;z-index:2}
@@ -354,7 +341,7 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
 }
 @media (prefers-reduced-motion:reduce){
   #loader,#curtain{display:none}
-  .nav,.hud,.eyebrow,.hero-sub,.hero-ctas,.hero-note,.scroll-cue,.map-legend{opacity:1 !important}
+  .nav,.hud,.eyebrow,.hero-sub,.hero-ctas,.hero-note,.scroll-cue{opacity:1 !important}
   .mask>span{transform:none !important}
   .f-media{clip-path:none !important}
   .f-media img{transform:none !important}
@@ -378,7 +365,7 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
 <nav class="nav" id="nav">
   <a class="nav-logo" href="#top">
     <img src="./shield.png" alt="SafeNest shield">
-    Safe<b>Nest</b>
+    <span>Safe<b>Nest</b></span>
   </a>
   <div class="nav-right">
     <a class="nav-link" href="./cities.html">City reports</a>
@@ -407,12 +394,6 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
       <a class="btn btn-ghost-ivory" href="https://apps.apple.com/app/safenest-know-before-you-move/id6786512308">Search free in the iPhone app</a>
     </div>
     <p class="hero-note">One address · Delivered by email as a <b>PDF</b> · No subscription</p>
-  </div>
-  <div class="map-legend" aria-hidden="true">
-    <span><i class="lg-off"></i> Registered offenders</span>
-    <span><i class="lg-crime"></i> Crime incidents</span>
-    <span><i class="lg-school"></i> Schools</span>
-    <span><i class="lg-radius"></i> 1-mile radius</span>
   </div>
   <div class="scroll-cue">Scroll</div>
 </header>
@@ -570,7 +551,7 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
     <div class="foot-top">
       <a class="nav-logo" href="#top">
         <img src="./shield.png" alt="">
-        Safe<b>Nest</b>
+        <span>Safe<b>Nest</b></span>
       </a>
       <div class="foot-links">
         <a href="./cities.html">City Reports</a>
@@ -816,6 +797,12 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
       onUpdate:function(self){ three.scrubTarget = self.progress; }
     });
   }
+  /* fade the corner HUD + scroll cue out as chapters take over */
+  ScrollTrigger.create({
+    trigger:'#chapters', start:'top 85%',
+    onEnter:function(){ gsap.to(['.hud','.scroll-cue'],{opacity:0,duration:.35,overwrite:'auto'}); },
+    onLeaveBack:function(){ gsap.to(['.hud','.scroll-cue'],{opacity:1,duration:.35,overwrite:'auto'}); }
+  });
   /* dim the scene while chapters are pinned so the words lead */
   if(three && !reduced){
     gsap.fromTo(canvas,{opacity:1},{opacity:0.55,ease:'none',
@@ -848,7 +835,7 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
       .to('.hero-note',{opacity:1,duration:.8},'-=0.6')
       .to('.nav',{opacity:1,duration:.8},'-=0.7')
       .to('.hud',{opacity:1,duration:.8},'-=0.7')
-      .to(['.scroll-cue','.map-legend'],{opacity:1,duration:.8},'-=0.5');
+      .to('.scroll-cue',{opacity:1,duration:.8},'-=0.5');
   }
 
   if(reduced){
