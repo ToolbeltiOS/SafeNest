@@ -577,6 +577,11 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
   var canvas = document.getElementById('scene');
   var backdrop = document.getElementById('backdrop');
   var three = null, canvasVisible = true;
+  var rafId = null, frameFn = null;
+  /* frameFn bridges scopes: frame() is defined inside initScene, but the
+     features-wrap ScrollTrigger (outer) needs to start/stop the loop too */
+  function startLoop(){ if(rafId===null && frameFn) rafId=requestAnimationFrame(frameFn); }
+  function stopLoop(){ if(rafId!==null){ cancelAnimationFrame(rafId); rafId=null; } }
 
   function initScene(){
     var isMobile = window.innerWidth < 768;
@@ -731,8 +736,10 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
   window.addEventListener('resize', resize3);
 
   var clock3 = new THREE.Clock();
-  var TWO_PI=Math.PI*2;
+  var TWO_PI=Math.PI*2, frameToggle=false;
   function frame(){
+    frameToggle=!frameToggle;
+    if(isMobile && frameToggle){ rafId=requestAnimationFrame(frame); return; } /* 30fps cap on mobile — skipped frames cost ~0 */
     if(three && canvasVisible){
       resize3();
       var t = clock3.getElapsedTime();
@@ -772,9 +779,9 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
       }
       three.renderer.render(three.scene, three.camera);
     }
-    requestAnimationFrame(frame);
+    rafId=requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
+  frameFn = frame;
 
     /* camera scrub: hero top → chapters end */
     if(three && !reduced){
@@ -792,6 +799,7 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
     /* reveal the freshly-built scene (the navy backdrop covered the gap) */
     canvas.style.opacity='1';
     ScrollTrigger.refresh();
+    startLoop();
   }
 
   /* fade the corner HUD + scroll cue out as chapters take over */
@@ -807,10 +815,12 @@ footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:
     onEnter:function(){
       canvasVisible=false; canvas.style.visibility='hidden'; backdrop.style.visibility='hidden';
       document.body.classList.remove('hero-mode');
+      stopLoop();
     },
     onLeaveBack:function(){
       canvasVisible=true; canvas.style.visibility='visible'; backdrop.style.visibility='visible';
       document.body.classList.add('hero-mode');
+      startLoop();
     }
   });
 
