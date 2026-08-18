@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SafeNest — The background check for your next home</title>
 <meta name="description" content="Crime, registered offenders, flood risk, schools, air quality, property taxes — one search, the full picture. SafeNest is the neighborhood safety report for any US address.">
-<meta property="og:title" content="SafeNest — Know Your Neighborhood">
-<meta property="og:description" content="Your next home needs a background check. One search, the full picture.">
-<meta property="og:image" content="https://safenest.lol/logo.png">
+<meta name="theme-color" content="#1B2A44">
+<meta name="apple-itunes-app" content="app-id=6786512308">
+<link rel="icon" type="image/png" href="./shield.png">
 <link rel="canonical" href="https://safenest.lol/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SafeNest">
 <meta property="og:url" content="https://safenest.lol/">
+<meta property="og:title" content="SafeNest — Know Your Neighborhood">
+<meta property="og:description" content="Your next home needs a background check. One search, the full picture.">
+<meta property="og:image" content="https://safenest.lol/logo.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SafeNest — Know Your Neighborhood">
 <meta name="twitter:description" content="Your next home needs a background check. One search, the full picture.">
 <meta name="twitter:image" content="https://safenest.lol/logo.png">
-<meta name="theme-color" content="#1B2A44">
-<meta name="apple-itunes-app" content="app-id=6786512308">
-<link rel="icon" type="image/png" href="./shield.png">
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -28,324 +28,551 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Lato:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
+  /* ===== SafeNest brand tokens ===== */
   --navy:#1B2A44;
   --navy-deep:#121D31;
+  --ink:#22314E;
+  --body:#4A5670;
+  --muted:#93A0B8;
+  --ivory:#F4EFE5;
+  --ivory-dim:#E9E1D2;
   --gold:#B08D57;
   --gold-light:#D4B270;
   --teal:#1F8378;
   --teal-dark:#166B61;
-  --ivory:#F4EFE5;
-  --ivory-dim:#E9E1D2;
-  --muted:#93A0B8;
-  --ink-on-light:#22314E;
+  /* slate scale — formerly escaped greys, now tokens */
+  --slate-1:#6E7C96;
+  --slate-2:#7C8AA3;
+  --slate-3:#B9C4D6;
+  --paper:#FBF9F4;
+  --paper-cool:#F2F7F5;
+  /* grade axis — separate from UI colors.
+     B decoupled from action teal; all pass 4.5:1 with white text. */
+  --grade-a:#2E7D4F;
+  --grade-b:#1F6E5E;
+  --grade-c:#8F6B00;
+  --grade-d:#A34A22;
+  --grade-f:#8C2F2F;
+  /* borders & scrims: alpha-composited from navy and gold only */
+  --line-navy:rgba(27,42,68,.14);
+  --line-navy-strong:rgba(27,42,68,.28);
+  --line-ivory:rgba(244,239,229,.14);
+  --line-ivory-strong:rgba(244,239,229,.26);
+  --line-gold:rgba(176,141,87,.35);
+  --scrim-navy:rgba(18,29,49,.55);
+  --serif:'Playfair Display', Georgia, serif;
+  --sans:'Lato', -apple-system, sans-serif;
+  --mono:'IBM Plex Mono', 'SF Mono', monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Lato',sans-serif;background:var(--navy);color:var(--ivory);line-height:1.6;font-size:17px}
-img{max-width:100%;height:auto;display:block}
-a{color:var(--teal)}
-h1,h2,h3{font-family:'Playfair Display',serif;line-height:1.15}
-.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-.kicker{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-light);font-weight:700}
-.btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:700;padding:16px 34px;border-radius:999px;font-size:17px;transition:background .2s, transform .15s}
-.btn:hover{background:var(--teal-dark)}
-.btn:focus-visible{outline:3px solid var(--gold-light);outline-offset:3px}
-.btn:active{transform:scale(.98)}
-.btn-ghost{background:transparent;border:2px solid var(--gold);color:var(--gold-light)}
-.btn-ghost:hover{background:rgba(176,141,87,.12)}
-
-/* Nav */
-nav{position:sticky;top:0;z-index:50;background:rgba(18,29,49,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(176,141,87,.25)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1120px;margin:0 auto}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-.brand img{height:40px;width:auto}
-.brand span{font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:var(--ivory)}
-.brand b{color:var(--gold-light)}
-nav .btn{padding:10px 22px;font-size:15px}
-
-/* Hero */
-.hero{position:relative;overflow:hidden;padding:88px 0 0;background:linear-gradient(180deg,var(--navy) 0%,var(--navy-deep) 100%)}
-.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
-.hero h1{font-size:clamp(38px,5.4vw,64px);color:var(--ivory);margin:20px 0 22px}
-.hero h1 em{font-style:normal;color:var(--gold-light)}
-.hero p.lede{font-size:19px;color:var(--muted);max-width:34em;margin-bottom:34px}
-.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
-.hero small{color:var(--muted);font-size:14px;display:block}
-.hero small.line-app{margin-top:6px;color:#7C8AA3;font-size:13.5px}
-.hero-secondary{margin-top:16px}
-.hero-secondary a{color:var(--gold-light);text-decoration:none;font-size:15px}
-.hero-secondary a:hover{text-decoration:underline}
-
-/* Apple badge — official artwork, unmodified. Their guidelines require clear
-   space of at least 1/4 the badge height on every side and a minimum height;
-   the margin below is that clear space, and the badge is never recoloured,
-   stretched, or given our own border. */
-.badge-appstore{display:inline-block;line-height:0;margin:calc(50px/4);margin-left:0}
-.badge-appstore img{height:50px;width:auto;display:block}
-.final-ctas{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:6px}
-
-/* DEVICE AWARENESS. On iOS the app is the better answer — it is free to search,
-   it is already installed-or-one-tap, and the Smart App Banner has already
-   offered the handoff at the top of the page. So the badge leads and the report
-   follows. Everywhere else the report leads: it is the thing a desktop visitor
-   can actually complete right now. Nothing is hidden in either direction. */
-/* `order` rather than row-reverse: these two wrap onto separate lines at most
-   widths, and reversing a wrapped row reorders within each line only — which
-   looked identical to the default and would have shipped as a no-op. */
-html.ios .cta-app{order:-1}
-html.ios .cta-report{order:0}
-html.ios .line-app{order:-1;margin-top:0;margin-bottom:6px}
-@media(max-width:640px){
-  .hero-ctas{flex-direction:column;align-items:flex-start;gap:14px}
-  .badge-appstore{margin-left:0}
+html{background:var(--ivory)}
+body{
+  background:var(--ivory);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.6;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
 }
-.premium-note{max-width:52ch;margin:18px auto 0;font-size:15px;color:#93A0B8;line-height:1.6}
-.phone-stage{position:relative;display:flex;justify-content:center;padding:10px 0 0}
-.ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:560px;height:560px;border:3px dashed var(--teal);border-radius:50%;opacity:.5;animation:spin 60s linear infinite}
-.ring.r2{width:420px;height:420px;opacity:.3;animation-duration:45s;animation-direction:reverse}
-@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-.pin{position:absolute;width:14px;height:14px;border-radius:50%;box-shadow:0 0 0 4px rgba(18,29,49,.7)}
-.phone{position:relative;width:min(320px,80%);border-radius:38px;overflow:hidden;border:3px solid rgba(212,178,112,.55);box-shadow:0 40px 90px rgba(0,0,0,.55)}
-.hero-fade{height:70px;background:linear-gradient(180deg,transparent,var(--navy-deep));position:relative;margin-top:-70px;z-index:2}
+::selection{background:rgba(176,141,87,.28)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
 
-/* Proof strip */
-.strip{background:var(--navy-deep);border-top:1px solid rgba(176,141,87,.25);border-bottom:1px solid rgba(176,141,87,.25);padding:26px 0}
-.strip .wrap{display:flex;flex-wrap:wrap;gap:14px 40px;justify-content:center;color:var(--muted);font-size:15px}
-.strip b{color:var(--gold-light);font-weight:700}
+/* ================= PRELOADER (ivory) ================= */
+#loader{
+  position:fixed;inset:0;z-index:1000;background:var(--ivory);
+  display:flex;align-items:flex-end;justify-content:space-between;
+  padding:clamp(24px,4vw,48px);
+}
+#loader .load-count{
+  font-family:var(--serif);font-size:clamp(80px,16vw,200px);
+  line-height:.85;color:var(--navy);font-variant-numeric:tabular-nums;
+}
+#loader .load-count small{font-size:.22em;color:var(--gold);font-family:var(--mono);vertical-align:super;letter-spacing:.1em}
+#loader .load-label{
+  font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--body);max-width:220px;text-align:right;line-height:2;
+}
+#loader .load-label b{color:var(--teal-dark);font-weight:500}
+#loader .load-bar{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--line-navy)}
+#loader .load-bar i{display:block;height:100%;background:var(--gold);transform:scaleX(0);transform-origin:left}
+#curtain{
+  position:fixed;inset:0;z-index:999;background:var(--navy);
+  transform:scaleY(0);transform-origin:top;pointer-events:none;
+}
 
-/* Feature rows */
-.features{background:var(--ivory);color:var(--ink-on-light);padding:96px 0}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:56px 0}
-.row + .row{border-top:1px solid rgba(27,42,68,.12)}
-.row .shot{width:min(300px,86%);margin:0 auto;border-radius:34px;overflow:hidden;border:2px solid rgba(27,42,68,.15);box-shadow:0 26px 60px rgba(27,42,68,.22)}
-.row h2{font-size:clamp(28px,3.4vw,40px);color:var(--navy);margin:16px 0 16px}
-.row p{color:#4A5670;max-width:32em}
-.row .kicker{color:var(--gold)}
-.grade{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;font-family:'Playfair Display',serif;font-weight:700;font-size:26px;color:#fff;margin-bottom:6px}
-.g-red{background:#B03A3A}.g-green{background:#2E7D4F}.g-teal{background:var(--teal)}.g-gold{background:var(--gold)}.g-amber{background:#C99700}
-@media (min-width:861px){.row:nth-child(even) .media{order:2}}
+/* ================= CHROME ================= */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(20px,4vw,48px);height:72px;
+  transition:background .4s,border-color .4s;
+  border-bottom:1px solid transparent;color:var(--ivory);
+  opacity:0;
+}
+.nav.scrolled{
+  background:rgba(27,42,68,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom-color:var(--line-gold);
+}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;font-family:var(--sans)}
+.nav-logo img{width:28px;height:28px}
+.nav-logo b{color:var(--gold-light);font-weight:700}
+.nav-right{display:flex;align-items:center;gap:28px}
+.nav-link{font-size:14px;color:var(--slate-3);transition:color .2s}
+.nav-link:hover{color:var(--ivory)}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  padding:13px 26px;border-radius:6px;cursor:pointer;
+  transition:transform .2s, box-shadow .2s, background .2s, color .2s;border:none;
+}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 0 0 1px rgba(22,107,97,.5), 0 8px 28px -10px rgba(31,131,120,.55)}
+.btn-teal:hover{transform:translateY(-1px);background:var(--teal-dark)}
+.btn-gold{background:var(--gold);color:#fff;box-shadow:0 0 0 1px rgba(176,141,87,.5), 0 8px 28px -10px rgba(176,141,87,.55)}
+.btn-gold:hover{transform:translateY(-1px);background:var(--gold-light);color:var(--navy-deep)}
+.btn-ghost-ivory{background:transparent;color:var(--ivory);box-shadow:inset 0 0 0 1px var(--line-ivory-strong)}
+.btn-ghost-ivory:hover{box-shadow:inset 0 0 0 1px rgba(244,239,229,.5);background:rgba(244,239,229,.07)}
+.btn-nav{padding:9px 18px;font-size:14px}
 
-/* Premium */
-.premium{background:linear-gradient(180deg,var(--navy-deep),var(--navy));padding:96px 0;text-align:center}
-.premium h2{font-size:clamp(30px,3.8vw,44px);margin:18px auto 18px;max-width:16em}
-.premium p{color:var(--muted);max-width:38em;margin:0 auto 30px}
-.perks{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:0 auto 38px;max-width:760px}
-.perk{border:1px solid rgba(176,141,87,.4);color:var(--ivory-dim);border-radius:999px;padding:9px 20px;font-size:15px}
+/* corner HUD */
+.hud{
+  position:fixed;z-index:99;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.16em;color:var(--slate-2);text-transform:uppercase;
+  pointer-events:none;opacity:0;
+}
+.hud b{color:var(--slate-1);font-weight:500}
+.hero-mode .hud{color:var(--muted)}
+.hero-mode .hud b{color:var(--slate-3)}
+.hud-left{left:clamp(20px,4vw,48px);bottom:24px}
+.hud-right{right:clamp(20px,4vw,48px);bottom:24px;text-align:right}
+@media(max-width:720px){.hud{display:none}}
 
-/* Final CTA */
-.final{background:var(--ivory);color:var(--ink-on-light);padding:100px 0;text-align:center}
-.final h2{font-size:clamp(30px,4vw,48px);color:var(--navy);margin:16px auto 14px;max-width:15em}
-.final p{color:#4A5670;margin-bottom:32px}
+/* ================= BACKDROP + SCENE (fixed, navy) ================= */
+#backdrop{position:fixed;inset:0;z-index:0;background:var(--navy-deep);pointer-events:none}
+#scene{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
 
-/* Footer */
-footer{background:var(--navy-deep);padding:56px 0 40px;border-top:1px solid rgba(176,141,87,.25)}
-footer .wrap{display:grid;gap:26px}
-.foot-brand{display:flex;align-items:center;gap:12px}
-.foot-brand img{height:34px;width:auto}
-.foot-brand span{font-family:'Playfair Display',serif;font-size:19px;font-weight:700}
-.foot-brand b{color:var(--gold-light)}
-.legal{color:#6E7C96;font-size:13px;max-width:70em;line-height:1.7}
-.foot-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;color:#6E7C96;font-size:14px}
-.foot-row a{color:var(--muted);text-decoration:none;margin-left:22px}
-.foot-row a:hover{color:var(--gold-light)}
+/* ================= HERO (on navy) ================= */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;color:var(--ivory)}
+.hero-vignette{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 42%, transparent 30%, var(--scrim-navy) 72%, var(--navy-deep) 100%),
+    linear-gradient(to bottom, rgba(18,29,49,.5) 0%, transparent 22%, transparent 70%, rgba(18,29,49,.85) 100%);
+}
+.hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:120px clamp(20px,4vw,48px) 0;width:100%;text-align:center}
+.eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--gold-light);text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:12px;margin-bottom:28px;opacity:0;
+}
+.eyebrow::before,.eyebrow::after{content:'';width:32px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.eyebrow::after{background:linear-gradient(90deg,var(--gold),transparent)}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(42px,6.8vw,88px);line-height:1.05;letter-spacing:-.01em;margin-bottom:28px}
+h1 em{font-style:italic;font-weight:400;color:var(--gold-light)}
+.mask{display:block;overflow:hidden}
+.mask>span{display:block;transform:translateY(110%)}
+.hero-sub{font-size:clamp(16px,1.6vw,19px);color:var(--slate-3);max-width:640px;margin:0 auto 40px;line-height:1.65;opacity:0}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;opacity:0}
+.hero-note{font-family:var(--mono);font-size:12.5px;color:var(--muted);letter-spacing:.04em;opacity:0}
+.hero-note b{color:var(--slate-3);font-weight:500}
+.scroll-cue{
+  position:absolute;bottom:76px;left:50%;transform:translateX(-50%);z-index:3;
+  font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);opacity:0;
+}
+.scroll-cue::after{
+  content:'';display:block;width:1px;height:34px;margin:12px auto 0;
+  background:linear-gradient(to bottom,var(--gold-light),transparent);
+  animation:cue 1.8s ease-in-out infinite;
+}
+@keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
+.map-legend{
+  position:absolute;bottom:76px;left:clamp(20px,4vw,48px);z-index:3;
+  display:flex;flex-direction:column;gap:9px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);opacity:0;
+}
+.map-legend span{display:flex;align-items:center;gap:10px}
+.map-legend i{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.lg-off{background:#B03A3A;box-shadow:0 0 8px rgba(176,58,58,.7)}
+.lg-crime{background:#C4652A}
+.lg-school{background:var(--teal);box-shadow:inset 0 0 0 1.5px var(--ivory)}
+.lg-radius{background:transparent;border:1.5px solid var(--gold-light)}
+@media(max-width:720px){.map-legend{display:none}}
 
-/* Reveal on scroll */
-.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
-.reveal.in{opacity:1;transform:none}
+/* ================= CONTENT ================= */
+main{position:relative;z-index:2}
+.section{max-width:1200px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,48px)}
+.sec-eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--body);margin-bottom:18px;display:flex;align-items:center;gap:12px;
+}
+.sec-eyebrow::before{content:'';width:28px;height:1px;background:var(--gold)}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(32px,4.4vw,54px);line-height:1.12;letter-spacing:-.005em;color:var(--navy)}
+h2 em{font-style:italic;font-weight:400;color:var(--teal-dark)}
+.sec-sub{color:var(--body);font-size:17px;margin-top:20px;max-width:600px}
+
+/* ---- marquee strip (ivory) ---- */
+.marquee-band{
+  position:relative;z-index:2;
+  border-top:1px solid var(--line-gold);border-bottom:1px solid var(--line-navy);
+  overflow:hidden;padding:26px 0;background:var(--ivory);
+}
+.marquee{display:flex;white-space:nowrap;will-change:transform}
+.marquee span{
+  font-family:var(--serif);font-size:clamp(28px,4vw,52px);color:var(--navy);
+  padding:0 32px;display:flex;align-items:center;gap:32px;font-weight:500;
+}
+.marquee span i{font-style:normal;color:var(--gold);font-family:var(--mono);font-size:.35em;letter-spacing:.2em}
+.marquee em{font-style:italic;font-weight:400;color:var(--slate-1)}
+
+/* ---- pinned chapters (transparent over navy scene) ---- */
+.chapters{position:relative;color:var(--ivory)}
+.chapter-stage{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.chapter-stage::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 85% 70% at 50% 50%, rgba(18,29,49,.85), rgba(18,29,49,.5) 75%);
+}
+.chapter{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:0 clamp(20px,4vw,48px);opacity:0;visibility:hidden;
+  text-shadow:0 2px 30px rgba(18,29,49,.9), 0 1px 6px rgba(18,29,49,.7);
+}
+.chapter .ch-num{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--muted);margin-bottom:26px;text-transform:uppercase}
+.chapter .ch-num b{color:var(--gold-light);font-weight:500}
+.chapter h3{font-family:var(--serif);font-weight:500;font-size:clamp(64px,13vw,168px);line-height:.98;letter-spacing:-.015em}
+.chapter h3 em{font-style:italic;font-weight:400;color:var(--gold-light)}
+.chapter p{color:var(--slate-3);font-size:clamp(15px,1.5vw,18px);max-width:520px;margin-top:30px}
+.chapter .ch-mono{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:22px}
+.ch-progress{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);display:flex;gap:10px;z-index:5}
+.ch-progress i{width:28px;height:2px;background:var(--line-ivory-strong);transition:background .4s}
+.ch-progress i.on{background:var(--gold-light)}
+
+/* ---- features (ivory, solid) ---- */
+.features-wrap{background:var(--ivory);position:relative;z-index:2}
+.feature{
+  display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(36px,5vw,80px);
+  align-items:center;padding:clamp(48px,6vw,88px) 0;border-top:1px solid var(--line-navy);
+}
+.feature:nth-child(even){grid-template-columns:1.15fr 1fr}
+.feature:nth-child(even) .f-copy{order:2}
+.feature:nth-child(even) .f-media{order:1}
+.f-tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--slate-1);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.f-grade{
+  display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:5px;
+  font-family:var(--mono);font-size:13px;font-weight:500;color:#fff;
+}
+.g-a{background:var(--grade-a)} .g-b{background:var(--grade-b)}
+.g-c{background:var(--grade-c)} .g-d{background:var(--grade-d)} .g-f{background:var(--grade-f)}
+.feature h3{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3vw,38px);line-height:1.15;margin-bottom:16px;color:var(--navy)}
+.feature p{color:var(--body);font-size:16px;max-width:480px}
+.f-media{
+  position:relative;border-radius:12px;overflow:hidden;background:var(--paper);
+  box-shadow:0 0 0 1px var(--line-navy-strong), 0 30px 60px -22px rgba(27,42,68,.35);
+  clip-path:inset(12% 8% 12% 8% round 12px);
+}
+.f-media img{width:100%;height:auto;transform:scale(1.16);will-change:transform}
+
+/* ---- stats band ---- */
+.band{border-top:1px solid var(--line-navy);border-bottom:1px solid var(--line-navy);background:var(--ivory-dim)}
+.band-inner{max-width:1200px;margin:0 auto;padding:clamp(48px,5vw,72px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.stat{border-left:1px solid var(--line-gold);padding-left:24px}
+.stat-num{font-family:var(--serif);font-weight:500;font-size:clamp(36px,4vw,52px);line-height:1;margin-bottom:8px;font-variant-numeric:tabular-nums;color:var(--navy)}
+.stat-num em{color:var(--teal-dark);font-style:normal}
+.stat-label{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate-1);line-height:1.7}
+
+/* ---- pricing ---- */
+.pricing{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:920px;margin:0 auto}
+.price-card{
+  background:var(--paper);border-radius:14px;padding:clamp(32px,3.5vw,44px);
+  box-shadow:0 0 0 1px var(--line-navy-strong), 0 24px 54px -24px rgba(27,42,68,.3);
+  position:relative;overflow:hidden;display:flex;flex-direction:column;
+}
+.price-card.featured{
+  background:linear-gradient(165deg, var(--navy) 0%, var(--navy-deep) 100%);
+  color:var(--ivory);
+  box-shadow:0 0 0 1px var(--line-gold), 0 28px 64px -20px rgba(18,29,49,.55);
+}
+.price-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent)}
+.price-tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--slate-1);margin-bottom:20px}
+.price-card.featured .price-tag{color:var(--gold-light)}
+.price-num{font-family:var(--serif);font-weight:500;font-size:clamp(40px,4.5vw,56px);line-height:1;margin-bottom:6px;color:var(--navy)}
+.price-card.featured .price-num{color:var(--ivory)}
+.price-num small{font-size:.42em;color:var(--slate-1);font-family:var(--sans);font-weight:400}
+.price-card.featured .price-num small{color:var(--muted)}
+.price-sub{color:var(--body);font-size:14.5px;margin-bottom:28px}
+.price-card.featured .price-sub{color:var(--slate-3)}
+.price-list{list-style:none;margin-bottom:32px;flex:1}
+.price-list li{padding:9px 0;font-size:15px;color:var(--body);display:flex;gap:12px;align-items:baseline;border-bottom:1px dashed var(--line-navy)}
+.price-card.featured .price-list li{color:var(--slate-3);border-bottom-color:var(--line-ivory)}
+.price-list li::before{content:'—';color:var(--gold);font-family:var(--mono);flex-shrink:0}
+.price-card.featured .price-list li::before{color:var(--gold-light)}
+.price-list li:last-child{border-bottom:none}
+
+/* ---- final CTA (navy panel) ---- */
+.final-panel{
+  background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+  color:var(--ivory);position:relative;overflow:hidden;
+}
+.final-panel::before{
+  content:'';position:absolute;left:50%;bottom:-40%;transform:translateX(-50%);
+  width:900px;height:500px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(212,178,112,.14),transparent 65%);pointer-events:none;
+}
+.final{text-align:center;padding-bottom:clamp(100px,12vw,160px)}
+.final .sec-eyebrow{justify-content:center;color:var(--gold-light)}
+.final h2{font-size:clamp(36px,5.2vw,64px);max-width:820px;margin:0 auto 20px;color:var(--ivory)}
+.final h2 em{color:var(--gold-light)}
+.final .sec-sub{margin:0 auto 40px;color:var(--slate-3)}
+.appstore-badge{height:48px;width:auto;opacity:.92;transition:opacity .2s}
+.appstore-badge:hover{opacity:1}
+
+/* ---- footer (navy-deep) ---- */
+footer{background:var(--navy-deep);color:var(--ivory);position:relative;z-index:2;border-top:1px solid var(--line-gold)}
+.foot-inner{max-width:1200px;margin:0 auto;padding:clamp(48px,5vw,64px) clamp(20px,4vw,48px)}
+.foot-top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;margin-bottom:40px}
+.foot-links{display:flex;gap:26px;flex-wrap:wrap}
+.foot-links a{font-size:13.5px;color:var(--slate-3);transition:color .2s}
+.foot-links a:hover{color:var(--ivory)}
+.disclaimer{font-size:12px;line-height:1.8;color:var(--muted);max-width:900px;padding-top:28px;border-top:1px dashed var(--line-ivory)}
+.copyright{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:24px;letter-spacing:.06em}
+.giant-mark{overflow:hidden;line-height:.82;user-select:none;pointer-events:none;padding:32px clamp(20px,4vw,48px) 0}
+.giant-mark span{
+  display:block;font-family:var(--serif);font-weight:500;
+  font-size:clamp(90px,19vw,270px);letter-spacing:-.01em;
+  color:transparent;-webkit-text-stroke:1px rgba(244,239,229,.22);
+  transform:translateY(30%);
+}
+.giant-mark b{color:transparent;-webkit-text-stroke:1px rgba(212,178,112,.55);font-weight:500}
+
+@media (max-width:880px){
+  .feature,.feature:nth-child(even){grid-template-columns:1fr}
+  .feature:nth-child(even) .f-copy{order:1}
+  .feature:nth-child(even) .f-media{order:2}
+  .band-inner{grid-template-columns:repeat(2,1fr)}
+  .pricing{grid-template-columns:1fr}
+  .nav-link{display:none}
+}
 @media (prefers-reduced-motion:reduce){
-  .reveal{opacity:1;transform:none;transition:none}
-  .ring{animation:none}
-  html{scroll-behavior:auto}
-}
-@media (max-width:860px){
-  .hero-grid,.row{grid-template-columns:1fr;gap:40px}
-  .hero{padding-top:56px}
-  .ring{width:380px;height:380px}
-  .ring.r2{width:290px;height:290px}
-  .row .media{order:-1}
+  #loader,#curtain{display:none}
+  .nav,.hud,.eyebrow,.hero-sub,.hero-ctas,.hero-note,.scroll-cue,.map-legend{opacity:1 !important}
+  .mask>span{transform:none !important}
+  .f-media{clip-path:none !important}
+  .f-media img{transform:none !important}
+  .chapter{position:relative;opacity:1 !important;visibility:visible !important;height:auto;padding:80px clamp(20px,4vw,48px)}
+  .chapter-stage{height:auto;display:block}
+  .ch-progress{display:none}
+  .giant-mark span{transform:none}
+  .scroll-cue::after{animation:none}
 }
 </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "MobileApplication",
-  "name": "SafeNest",
-  "description": "Neighborhood safety reports for any US address: crime, registered offenders, flood risk, schools, air quality, property taxes and more from 13 public data sources.",
-  "operatingSystem": "iOS",
-  "applicationCategory": "UtilitiesApplication",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "url": "https://safenest.lol/",
-  "image": "https://safenest.lol/logo.png",
-  "publisher": { "@type": "Organization", "name": "SafeNest" }
-}
-</script>
-<script>(function(){try{if(/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)){document.documentElement.className+=' ios';}}catch(e){}})();</script>
 </head>
-<body>
+<body class="hero-mode">
 
-<nav>
-  <div class="nav-in">
-    <a class="brand" href="#top">
-      <img src="./shield.png" alt="SafeNest shield logo">
-      <span>Safe<b>Nest</b></span>
-    </a>
-    <a class="btn" href="./report.html">Get a report</a>
+<div id="loader" aria-hidden="true">
+  <div class="load-count"><span id="pct">0</span><small>%</small></div>
+  <div class="load-label">Pulling <b>public records</b><br>Ten sources · One report<br>SafeNest</div>
+  <div class="load-bar"><i id="bar"></i></div>
+</div>
+<div id="curtain" aria-hidden="true"></div>
+
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="#top">
+    <img src="./shield.png" alt="SafeNest shield">
+    Safe<b>Nest</b>
+  </a>
+  <div class="nav-right">
+    <a class="nav-link" href="./cities.html">City reports</a>
+    <a class="nav-link" href="./methodology.html">Methodology</a>
+    <a class="btn btn-teal btn-nav" href="./report.html">Get a report</a>
   </div>
 </nav>
 
+<div class="hud hud-left"><b id="clock">--:--:--</b> · Local</div>
+<div class="hud hud-right">Scan <b id="scrollpct">000</b>%</div>
+
+<div id="backdrop"></div>
+<canvas id="scene"></canvas>
+
 <header class="hero" id="top">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="kicker">Know your neighborhood</span>
-      <h1>Your next home needs a <em>background check.</em></h1>
-      <p class="lede">Crime, registered offenders, flood and disaster history, schools, air quality, property taxes — SafeNest pulls ten public data sources into one neighborhood report for any US address. One search. The full picture.</p>
-      <div class="hero-ctas">
-        <a class="btn cta-report" href="./report.html">Get a neighborhood safety report — $6.99</a>
-        <a class="badge-appstore cta-app" href="https://apps.apple.com/app/safenest-know-before-you-move/id6786512308"
-           target="_blank" rel="noopener"
-           aria-label="Download SafeNest on the App Store">
-          <img src="./brand/appstore-badge.svg" width="150" height="50"
-               alt="Download on the App Store">
-        </a>
-      </div>
-      <small class="line-report">One address · $6.99 · Delivered by email as a PDF · No subscription</small>
-      <small class="line-app">Or search any address free in the iPhone app</small>
-      <p class="hero-secondary"><a href="#features">See what it finds ↓</a></p>
+  <div class="hero-vignette"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Neighborhood intelligence · Any US address</div>
+    <h1>
+      <span class="mask"><span>Your next home needs</span></span>
+      <span class="mask"><span>a <em>background check.</em></span></span>
+    </h1>
+    <p class="hero-sub">Crime, registered offenders, flood and disaster history, schools, air quality, property taxes — ten public data sources pulled into one report. One search. The full picture.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-teal" href="./report.html">Get a safety report — $6.99</a>
+      <a class="btn btn-ghost-ivory" href="https://apps.apple.com/app/safenest-know-before-you-move/id6786512308">Search free in the iPhone app</a>
     </div>
-    <div class="phone-stage">
-      <div class="ring"></div>
-      <div class="ring r2"></div>
-      <span class="pin" style="top:14%;left:18%;background:#B03A3A"></span>
-      <span class="pin" style="top:26%;right:12%;background:var(--teal)"></span>
-      <span class="pin" style="bottom:20%;left:10%;background:var(--gold)"></span>
-      <span class="pin" style="bottom:12%;right:18%;background:#3B6BB0"></span>
-      <div class="phone"><img width="620" height="1347" src="./shot-map.jpg" alt="SafeNest map showing safety grade and offenders within one mile of a San Francisco address" loading="eager"></div>
-    </div>
+    <p class="hero-note">One address · Delivered by email as a <b>PDF</b> · No subscription</p>
   </div>
-  <div class="hero-fade"></div>
+  <div class="map-legend" aria-hidden="true">
+    <span><i class="lg-off"></i> Registered offenders</span>
+    <span><i class="lg-crime"></i> Crime incidents</span>
+    <span><i class="lg-school"></i> Schools</span>
+    <span><i class="lg-radius"></i> 1-mile radius</span>
+  </div>
+  <div class="scroll-cue">Scroll</div>
 </header>
 
-<section class="strip">
-  <div class="wrap">
-    <div><b>10</b> data sources per report</div>
-    <div>Offender <b>registry</b></div>
-    <div>FEMA <b>disaster</b> declarations</div>
-    <div>School <b>scores</b></div>
-    <div>EPA <b>toxic sites</b></div>
-    <div>Block-level <b>crime</b></div>
+<main>
+  <!-- pinned chapters over the descending scene -->
+  <div class="chapters" id="chapters">
+    <div class="chapter-stage">
+      <section class="chapter" data-ch="0">
+        <div class="ch-num"><b>01</b> / 03 — What the sweep finds</div>
+        <h3><em>Offenders.</em></h3>
+        <p>Every registered offender within one mile, mapped and counted. Public record — finally on one map.</p>
+        <div class="ch-mono">1-mile radius · Public registries</div>
+      </section>
+      <section class="chapter" data-ch="1">
+        <div class="ch-num"><b>02</b> / 03 — What the sweep finds</div>
+        <h3><em>Crime.</em></h3>
+        <p>Block-level incidents and a letter grade for the neighborhood — not the city average, the blocks you'd actually walk.</p>
+        <div class="ch-mono">Block-level · Graded A–F</div>
+      </section>
+      <section class="chapter" data-ch="2">
+        <div class="ch-num"><b>03</b> / 03 — What the sweep finds</div>
+        <h3><em>School.</em></h3>
+        <p>Every nearby school gets a SafeNest Score built from academics, staffing ratios, and school climate. No reviews. No rumors. Just the numbers.</p>
+        <div class="ch-mono">SafeNest Score · State percentiles</div>
+      </section>
+      <div class="ch-progress" id="chprog"><i class="on"></i><i></i><i></i></div>
+    </div>
   </div>
-</section>
 
-<main class="features" id="features">
-  <div class="wrap">
-
-    <div class="row reveal">
-      <div>
-        <span class="grade g-red">18</span>
-        <div class="kicker">Safety, revealed</div>
-        <h2>The seller knows. The agent knows. The neighbors know. You don't. Yet.</h2>
-        <p>SafeNest maps registered offenders, hospitals, schools, and hazards around any address — with a safety grade for the neighborhood. Everything is drawn from public records; we just put it on one map.</p>
+  <!-- ivory body -->
+  <div class="features-wrap">
+    <div class="marquee-band" aria-hidden="true">
+      <div class="marquee" id="marquee">
+        <span>Crime <i>SRC 01</i></span><span><em>Offender registry</em> <i>SRC 02</i></span>
+        <span>Flood history <i>SRC 03</i></span><span><em>Schools</em> <i>SRC 04</i></span>
+        <span>Air quality <i>SRC 05</i></span><span><em>EPA sites</em> <i>SRC 06</i></span>
+        <span>Property tax <i>SRC 07</i></span><span><em>Earthquake</em> <i>SRC 08</i></span>
+        <span>Noise <i>SRC 09</i></span><span><em>Census</em> <i>SRC 10</i></span>
       </div>
-      <div class="media"><div class="shot"><img width="620" height="1347" src="./shot-map.jpg" alt="Map view with a one-mile radius, safety grade A, and 18 offenders nearby" loading="lazy"></div></div>
     </div>
 
-    <div class="row reveal">
-      <div>
-        <span class="grade g-gold">10</span>
-        <div class="kicker">The full picture</div>
-        <h2>Everything the listing won't tell you, finally in one place.</h2>
-        <p>Crime grade, flood &amp; disaster history, air quality, noise, property tax, commute, earthquake hazard, EPA sites, rent burden, vacancy — every card in one screen. This used to take a weekend of Googling.</p>
+    <section class="section" id="features" style="padding-bottom:0">
+      <div class="sec-eyebrow">What it finds</div>
+      <h2 class="reveal-h2">
+        <span class="mask"><span>The seller knows. The agent knows.</span></span>
+        <span class="mask"><span>The neighbors know. <em>You don't. Yet.</em></span></span>
+      </h2>
+    </section>
+
+    <section class="section" style="padding-top:clamp(40px,5vw,64px)">
+      <div class="feature">
+        <div class="f-copy">
+          <div class="f-tag"><span class="f-grade g-f">18</span> Safety, revealed</div>
+          <h3>Every registered offender, hospital, school, and hazard — on one map.</h3>
+          <p>SafeNest maps the full one-mile picture around any address, with a safety grade for the neighborhood. Everything is drawn from public records; we just put it on one map.</p>
+        </div>
+        <div class="f-media"><img src="./shot-map.jpg" alt="SafeNest map showing safety grade and offenders within one mile" loading="lazy"></div>
       </div>
-      <div class="media"><div class="shot"><img width="620" height="1347" src="./shot-data.jpg" alt="SafeNest data cards: schools, crime, flood, air, noise, property tax, hazards, EPA sites" loading="lazy"></div></div>
+
+      <div class="feature">
+        <div class="f-copy">
+          <div class="f-tag"><span class="f-grade g-b">10</span> The full picture</div>
+          <h3>Everything the listing won't tell you, finally in one place.</h3>
+          <p>Crime grade, flood &amp; disaster history, air quality, noise, property tax, commute, earthquake hazard, EPA sites, rent burden, vacancy — every card in one screen. This used to take a weekend of Googling.</p>
+        </div>
+        <div class="f-media"><img src="./shot-data.jpg" alt="SafeNest data cards" loading="lazy"></div>
+      </div>
+
+      <div class="feature">
+        <div class="f-copy">
+          <div class="f-tag"><span class="f-grade g-b">B</span> Side-by-side</div>
+          <h3>You've been deciding for three weeks. We need 30 seconds.</h3>
+          <p>Compare up to three addresses on grades, violent crime, and safety percentile. Line them up and watch the wrong one eliminate itself.</p>
+        </div>
+        <div class="f-media"><img src="./shot-compare.jpg" alt="Side-by-side comparison of three addresses" loading="lazy"></div>
+      </div>
+
+      <div class="feature">
+        <div class="f-copy">
+          <div class="f-tag"><span class="f-grade g-a">A</span> Schools, scored</div>
+          <h3>Schools rated by cold hard data, not by what others say.</h3>
+          <p>Every nearby school gets a SafeNest Score built from academics, staffing ratios, and school climate — with state percentile rankings. No reviews. No rumors. Just the numbers.</p>
+        </div>
+        <div class="f-media"><img src="./shot-school.jpg" alt="School profile with SafeNest score" loading="lazy"></div>
+      </div>
+
+      <div class="feature">
+        <div class="f-copy">
+          <div class="f-tag"><span class="f-grade g-c">C</span> The full report</div>
+          <h3>A report your agent takes seriously.</h3>
+          <p>Export a polished PDF — overall grade, flood risk, offender count, and a written analysis of every risk. Sometimes the report comes back a C. That's the point: SafeNest isn't selling you the house.</p>
+        </div>
+        <div class="f-media"><img src="./shot-report.jpg" alt="Exported SafeNest PDF report" loading="lazy"></div>
+      </div>
+    </section>
+
+    <div class="band">
+      <div class="band-inner">
+        <div class="stat"><div class="stat-num"><em><span class="count" data-to="10">0</span></em></div><div class="stat-label">Public data sources per report</div></div>
+        <div class="stat"><div class="stat-num"><span class="count" data-to="1">0</span><em>mi</em></div><div class="stat-label">Radius mapped around every address</div></div>
+        <div class="stat"><div class="stat-num"><span class="count" data-to="9">0</span><em>+</em></div><div class="stat-label">Written report sections</div></div>
+        <div class="stat"><div class="stat-num"><em>$</em><span class="count" data-to="6.99" data-dec="2">0</span></div><div class="stat-label">One address · No subscription</div></div>
+      </div>
     </div>
 
-    <div class="row reveal">
-      <div>
-        <span class="grade g-teal">B</span>
-        <div class="kicker">Side-by-side</div>
-        <h2>You've been deciding for three weeks. We need 30 seconds.</h2>
-        <p>Compare up to three addresses on grades, violent crime, and safety percentile. Line them up and watch the wrong one eliminate itself.</p>
+    <section class="section">
+      <div class="sec-eyebrow">Two ways in</div>
+      <h2 style="margin-bottom:clamp(48px,6vw,80px)">The free search shows the count. <em>Premium shows the rest.</em></h2>
+      <div class="pricing">
+        <div class="price-card featured">
+          <div class="price-tag">One-off report</div>
+          <div class="price-num">$6.99 <small>/ address</small></div>
+          <p class="price-sub">No subscription. No account. Delivered by email as a PDF.</p>
+          <ul class="price-list">
+            <li>Overall safety grade with written analysis</li>
+            <li>Crime, offenders, flood &amp; disaster history</li>
+            <li>Schools, air quality, EPA sites, property tax</li>
+            <li>Post-purchase interactive map</li>
+          </ul>
+          <a class="btn btn-gold" href="./report.html" style="justify-content:center">Get a neighborhood safety report</a>
+        </div>
+        <div class="price-card">
+          <div class="price-tag">SafeNest Premium · iPhone</div>
+          <div class="price-num">Free <small>to search</small></div>
+          <p class="price-sub">Search any US address free. Premium unlocks inside the app.</p>
+          <ul class="price-list">
+            <li>Full offender profiles — names, photos, distances</li>
+            <li>School SafeNest Score breakdowns</li>
+            <li>Complete 9+ section written report</li>
+            <li>Shareable PDF export, every card unlocked</li>
+          </ul>
+          <a href="https://apps.apple.com/app/safenest-know-before-you-move/id6786512308" style="display:flex;justify-content:center"><img class="appstore-badge" src="./brand/appstore-badge.svg" alt="Download on the App Store"></a>
+        </div>
       </div>
-      <div class="media"><div class="shot"><img width="620" height="1347" src="./shot-compare.jpg" alt="Side-by-side comparison of Boston, San Francisco, and Houma addresses" loading="lazy"></div></div>
-    </div>
+    </section>
+  </div>
 
-    <div class="row reveal">
-      <div>
-        <span class="grade g-green">A</span>
-        <div class="kicker">Schools, scored</div>
-        <h2>Schools rated by cold hard data, not by what others say.</h2>
-        <p>Every nearby school gets a SafeNest Score built from academics, staffing ratios, and school climate — with state percentile rankings. No reviews. No rumors. Just the numbers.</p>
+  <div class="final-panel">
+    <section class="section final">
+      <div class="sec-eyebrow">Your nest. Your safety.</div>
+      <h2>Everyone searches their own address first. <em>Go ahead.</em></h2>
+      <p class="sec-sub">Any US address · $6.99 · Delivered by email as a PDF</p>
+      <div class="hero-ctas" style="opacity:1">
+        <a class="btn btn-teal" href="./report.html">Get a neighborhood safety report</a>
+        <a href="https://apps.apple.com/app/safenest-know-before-you-move/id6786512308" style="display:flex;align-items:center"><img class="appstore-badge" src="./brand/appstore-badge.svg" alt="Download on the App Store"></a>
       </div>
-      <div class="media"><div class="shot"><img width="620" height="1347" src="./shot-school.jpg" alt="School profile for Columbia Elementary with a 9.4 out of 10 SafeNest score" loading="lazy"></div></div>
-    </div>
-
-    <div class="row reveal">
-      <div>
-        <span class="grade g-amber">C</span>
-        <div class="kicker">The full report</div>
-        <h2>A report your agent takes seriously.</h2>
-        <p>Export a polished PDF — overall grade, flood risk, offender count, and a written analysis of every risk. Sometimes the report comes back a C. That's the point: SafeNest isn't selling you the house.</p>
-      </div>
-      <div class="media"><div class="shot"><img width="620" height="1347" src="./shot-report.jpg" alt="Exported SafeNest PDF safety report for a Boston address showing a C grade and high flood risk" loading="lazy"></div></div>
-    </div>
-
+    </section>
   </div>
 </main>
 
-<section class="premium">
-  <div class="wrap reveal">
-    <span class="kicker">SafeNest Premium</span>
-    <h2>The free search shows the count. Premium shows the rest.</h2>
-    <p>Unlock full offender profiles with names, photos, and exact distances, school score breakdowns, the complete written safety report, and every data card — for the addresses that matter.</p>
-    <div class="perks">
-      <span class="perk">Full offender profiles</span>
-      <span class="perk">School SafeNest Scores</span>
-      <span class="perk">9+ section written report</span>
-      <span class="perk">Shareable PDF export</span>
-      <span class="perk">Every data card unlocked</span>
-    </div>
-    <p class="premium-note">Premium unlocks inside the iPhone app. Prefer a one-off?
-       The $6.99 neighborhood safety report needs no subscription and arrives by email.</p>
-    <div class="final-ctas" style="justify-content:flex-start">
-      <a class="badge-appstore" href="https://apps.apple.com/app/safenest-know-before-you-move/id6786512308"
-         target="_blank" rel="noopener" aria-label="Download SafeNest on the App Store">
-        <img src="./brand/appstore-badge.svg" width="150" height="50" alt="Download on the App Store">
-      </a>
-      <a class="btn btn-ghost" href="./report.html">Get a one-off report</a>
-    </div>
-  </div>
-</section>
-
-<section class="final" id="download">
-  <div class="wrap reveal">
-    <span class="kicker">Your nest. Your safety.</span>
-    <h2>Everyone searches their own address first. Go ahead.</h2>
-    <p>Any US address · $6.99 · Delivered by email as a PDF</p>
-    <div class="final-ctas">
-      <a class="btn" href="./report.html">Get a neighborhood safety report</a>
-      <a class="badge-appstore" href="https://apps.apple.com/app/safenest-know-before-you-move/id6786512308"
-         target="_blank" rel="noopener"
-         aria-label="Download SafeNest on the App Store">
-        <img src="./brand/appstore-badge.svg" width="150" height="50"
-             alt="Download on the App Store">
-      </a>
-    </div>
-  </div>
-</section>
-
 <footer>
-  <div class="wrap">
-    <div class="foot-brand">
-      <img src="./shield.png" alt="">
-      <span>Safe<b>Nest</b></span>
-    </div>
-    <p class="legal">SafeNest aggregates publicly available records — including government registries, FEMA disaster declarations and the FEMA National Risk Index, EPA databases, education statistics, and census data — for informational purposes only. Data may be incomplete, delayed, or contain errors; always verify independently before making decisions. SafeNest is not a consumer reporting agency as defined by the Fair Credit Reporting Act (FCRA) and its reports may not be used to determine eligibility for credit, employment, housing, or any other FCRA-regulated purpose. Registry information is provided for public awareness and may not be used to harass, threaten, or take action against any individual.</p>
-    <div class="foot-row">
-      <span>© 2026 SafeNest. All rights reserved.</span>
-      <span>
+  <div class="giant-mark" aria-hidden="true"><span id="giantmark">Safe<b>Nest</b></span></div>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <a class="nav-logo" href="#top">
+        <img src="./shield.png" alt="">
+        Safe<b>Nest</b>
+      </a>
+      <div class="foot-links">
         <a href="./cities.html">City Reports</a>
         <a href="./articles.html">Articles</a>
         <a href="./safest-cities-by-state.html">Safest by state</a>
@@ -353,16 +580,380 @@ footer .wrap{display:grid;gap:26px}
         <a href="./support.html">Support</a>
         <a href="./privacy.html">Privacy</a>
         <a href="./terms.html">Terms</a>
-      </span>
+      </div>
     </div>
+    <p class="disclaimer">SafeNest aggregates publicly available records — including government registries, FEMA disaster declarations and the FEMA National Risk Index, EPA databases, education statistics, and census data — for informational purposes only. Data may be incomplete, delayed, or contain errors; always verify independently before making decisions. SafeNest is not a consumer reporting agency as defined by the Fair Credit Reporting Act (FCRA) and its reports may not be used to determine eligibility for credit, employment, housing, or any other FCRA-regulated purpose. Registry information is provided for public awareness and may not be used to harass, threaten, or take action against any individual.</p>
+    <p class="copyright">© 2026 SafeNest. All rights reserved.</p>
   </div>
 </footer>
 
+<script src="./vendor/three.min.js"></script>
+<script src="./vendor/gsap.min.js"></script>
+<script src="./vendor/ScrollTrigger.min.js"></script>
 <script>
-const io = new IntersectionObserver(es => {
-  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+(function(){
+  'use strict';
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ============ HUD ============ */
+  function tick(){
+    var d = new Date();
+    var pad = function(n){ return String(n).padStart(2,'0'); };
+    document.getElementById('clock').textContent = pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+  }
+  tick(); setInterval(tick, 1000);
+  var spct = document.getElementById('scrollpct');
+  window.addEventListener('scroll', function(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.round(window.scrollY/max*100) : 0;
+    spct.textContent = String(p).padStart(3,'0');
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 24);
+  }, {passive:true});
+
+  /* ============ THREE.JS — brand-tinted scene ============ */
+  var canvas = document.getElementById('scene');
+  var backdrop = document.getElementById('backdrop');
+  var three = null;
+  try{
+    var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+    var scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x121D31, 0.020); /* --navy-deep */
+    var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
+
+    scene.add(new THREE.AmbientLight(0x2A3B5E, 1.6));
+    var key = new THREE.DirectionalLight(0x93A0B8, 0.85); /* --muted */
+    key.position.set(-14, 24, 10); scene.add(key);
+    var warm = new THREE.PointLight(0xD4B270, 1.1, 52); /* --gold-light */
+    warm.position.set(0, 9, 0); scene.add(warm);
+    var tealFill = new THREE.PointLight(0x1F8378, 0.55, 60); /* --teal */
+    tealFill.position.set(18, 12, -14); scene.add(tealFill);
+
+    var seedRand = (function(){ var s=42; return function(){ s=(s*16807)%2147483647; return (s-1)/2147483646; }; })();
+    var GRID=34, SPACING=2.2, STREET=4, cells=[], parks=[];
+    for(var gx=0; gx<GRID; gx++) for(var gz=0; gz<GRID; gz++){
+      if(gx%STREET===0 || gz%STREET===0) continue;
+      var x=(gx-GRID/2)*SPACING, z=(gz-GRID/2)*SPACING, dist=Math.sqrt(x*x+z*z);
+      if(dist>36) continue;
+      if(seedRand()<0.07){ parks.push({x:x,z:z}); continue; }
+      cells.push({x:x,z:z,h:0.5+seedRand()*seedRand()*4.8*(1-dist/44)});
+    }
+    var boxGeo = new THREE.BoxGeometry(1.55,1,1.55); boxGeo.translate(0,0.5,0);
+    var blocks = new THREE.InstancedMesh(boxGeo, new THREE.MeshLambertMaterial({color:0x22314E}), cells.length); /* --ink */
+    var dummy = new THREE.Object3D(), tc=new THREE.Color();
+    /* color districts, all brand-derived: navy core, teal-tinted, warm gold-brown */
+    var navyA=new THREE.Color(0x1B2A44), navyB=new THREE.Color(0x33476F);
+    var tealA=new THREE.Color(0x17423E), tealB=new THREE.Color(0x226059);
+    var warmA=new THREE.Color(0x453A26), warmB=new THREE.Color(0x64513A);
+    for(var i=0;i<cells.length;i++){
+      dummy.position.set(cells[i].x,0,cells[i].z);
+      dummy.scale.set(1,cells[i].h,1); dummy.updateMatrix();
+      blocks.setMatrixAt(i,dummy.matrix);
+      var dr=seedRand();
+      if(dr<0.68) tc.copy(navyA).lerp(navyB,seedRand());
+      else if(dr<0.85) tc.copy(tealA).lerp(tealB,seedRand());
+      else tc.copy(warmA).lerp(warmB,seedRand());
+      blocks.setColorAt(i,tc);
+    }
+    scene.add(blocks);
+
+    /* parks — flat teal-green patches */
+    var parkGeo=new THREE.PlaneGeometry(1.9,1.9); parkGeo.rotateX(-Math.PI/2);
+    var parkMat=new THREE.MeshLambertMaterial({color:0x1F5148,transparent:true,opacity:0.9});
+    parks.forEach(function(pk){
+      var p=new THREE.Mesh(parkGeo,parkMat);
+      p.position.set(pk.x,0.03,pk.z);
+      scene.add(p);
+    });
+
+    var grid = new THREE.GridHelper(GRID*SPACING, GRID, 0x3A4E78, 0x1F2E4C);
+    grid.material.transparent=true; grid.material.opacity=0.5; scene.add(grid);
+
+    var RADIUS=16.5;
+    var ringGeo = new THREE.RingGeometry(RADIUS-0.07,RADIUS+0.07,128); ringGeo.rotateX(-Math.PI/2);
+    var ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({color:0xD4B270,transparent:true,opacity:0.8,side:THREE.DoubleSide})); /* --gold-light */
+    ring.position.y=0.06; scene.add(ring);
+    [RADIUS*0.55,RADIUS*1.28].forEach(function(r,idx){
+      var g=new THREE.RingGeometry(r-0.03,r+0.03,96); g.rotateX(-Math.PI/2);
+      var m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:0x1F8378,transparent:true,opacity:idx===0?0.28:0.13,side:THREE.DoubleSide})); /* --teal */
+      m.position.y=0.05; scene.add(m);
+    });
+
+    var c2=document.createElement('canvas'); c2.width=256; c2.height=8;
+    var ctx=c2.getContext('2d'); var grad=ctx.createLinearGradient(0,0,256,0);
+    grad.addColorStop(0,'rgba(212,178,112,0)'); grad.addColorStop(1,'rgba(212,178,112,0.5)');
+    ctx.fillStyle=grad; ctx.fillRect(0,0,256,8);
+    var sweepGeo=new THREE.CircleGeometry(RADIUS,48,0,Math.PI/5); sweepGeo.rotateX(-Math.PI/2);
+    var uv=sweepGeo.attributes.uv, pos=sweepGeo.attributes.position;
+    for(var v=0;v<uv.count;v++){
+      var ang=Math.atan2(pos.getZ(v),pos.getX(v));
+      uv.setXY(v,Math.min(Math.max(ang/(Math.PI/5),0),1),0.5);
+    }
+    var sweep=new THREE.Mesh(sweepGeo,new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c2),transparent:true,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending}));
+    sweep.position.y=0.09; scene.add(sweep);
+
+    var beacon=new THREE.Mesh(new THREE.SphereGeometry(0.34,20,20),new THREE.MeshBasicMaterial({color:0xD4B270}));
+    beacon.position.y=0.6; scene.add(beacon);
+    var bpGeo=new THREE.RingGeometry(0.4,0.5,40); bpGeo.rotateX(-Math.PI/2);
+    var beaconPulse=new THREE.Mesh(bpGeo,new THREE.MeshBasicMaterial({color:0xD4B270,transparent:true,opacity:0.8,side:THREE.DoubleSide}));
+    beaconPulse.position.y=0.08; scene.add(beaconPulse);
+
+    /* school pins — teal pole + graduation-cap badge */
+    var schoolTexCanvas=document.createElement('canvas');
+    schoolTexCanvas.width=128; schoolTexCanvas.height=128;
+    var sctx=schoolTexCanvas.getContext('2d');
+    sctx.beginPath(); sctx.arc(64,64,56,0,Math.PI*2);
+    sctx.fillStyle='#1F8378'; sctx.fill();
+    sctx.lineWidth=6; sctx.strokeStyle='#F4EFE5'; sctx.stroke();
+    sctx.font='60px sans-serif'; sctx.textAlign='center'; sctx.textBaseline='middle';
+    sctx.fillText('\uD83C\uDF93',64,68); /* graduation cap */
+    var schoolTex=new THREE.CanvasTexture(schoolTexCanvas);
+    var schoolMat=new THREE.SpriteMaterial({map:schoolTex,transparent:true,depthWrite:false});
+    var poleGeo=new THREE.CylinderGeometry(0.05,0.05,2.0,8);
+    var poleMat=new THREE.MeshBasicMaterial({color:0x1F8378,transparent:true,opacity:0.85});
+    var schoolSpots=[[6.2,-4.8],[-8.4,7.1],[11.6,8.9],[-5.2,-11.3],[2.8,13.6]];
+    schoolSpots.forEach(function(sp){
+      var pole=new THREE.Mesh(poleGeo,poleMat);
+      pole.position.set(sp[0],1.0,sp[1]); scene.add(pole);
+      var badge=new THREE.Sprite(schoolMat);
+      badge.scale.set(1.5,1.5,1);
+      badge.position.set(sp[0],2.5,sp[1]); scene.add(badge);
+    });
+
+    /* data layers — always visible, pulse when the sweep passes.
+       offenders: grade-F red, larger. crime: grade-D ember, smaller. */
+    var incidents=[];
+    var offGeo=new THREE.SphereGeometry(0.24,12,12);
+    var crimeGeo=new THREE.SphereGeometry(0.15,10,10);
+    for(var d2=0; d2<30; d2++){
+      var isOffender = d2 < 13;
+      var a2=seedRand()*Math.PI*2, r2=3+seedRand()*(RADIUS-4);
+      var dot=new THREE.Mesh(isOffender?offGeo:crimeGeo,
+        new THREE.MeshBasicMaterial({color:isOffender?0xB03A3A:0xC4652A,transparent:true,opacity:0.55}));
+      dot.position.set(Math.cos(a2)*r2,0.9+seedRand()*1.8,Math.sin(a2)*r2);
+      scene.add(dot);
+      /* soft glow halo under each offender dot */
+      if(isOffender){
+        var haloGeo=new THREE.RingGeometry(0.28,0.44,24); haloGeo.rotateX(-Math.PI/2);
+        var halo=new THREE.Mesh(haloGeo,new THREE.MeshBasicMaterial({color:0xB03A3A,transparent:true,opacity:0.25,side:THREE.DoubleSide}));
+        halo.position.set(dot.position.x,0.07,dot.position.z);
+        scene.add(halo);
+      }
+      incidents.push({mesh:dot,angle:((a2%(Math.PI*2))+Math.PI*2)%(Math.PI*2),glow:0});
+    }
+
+    three = {renderer:renderer, scene:scene, camera:camera, sweep:sweep,
+             beacon:beacon, beaconPulse:beaconPulse, incidents:incidents,
+             scrub:0, scrubTarget:0, mouseX:0, mouseY:0, targX:0, targY:0};
+
+    window.addEventListener('mousemove', function(e){
+      three.targX=(e.clientX/window.innerWidth-0.5);
+      three.targY=(e.clientY/window.innerHeight-0.5);
+    }, {passive:true});
+  }catch(err){ canvas.style.display='none'; }
+
+  function resize3(){
+    if(!three) return;
+    var w=canvas.clientWidth, h=canvas.clientHeight;
+    if(canvas.width!==w||canvas.height!==h){
+      three.renderer.setSize(w,h,false);
+      three.camera.aspect=w/h; three.camera.updateProjectionMatrix();
+    }
+  }
+  window.addEventListener('resize', resize3);
+
+  var clock3 = new THREE.Clock();
+  var TWO_PI=Math.PI*2, canvasVisible=true;
+  function frame(){
+    if(three && canvasVisible){
+      resize3();
+      var t = clock3.getElapsedTime();
+      three.scrub += (three.scrubTarget - three.scrub)*0.06;
+      three.mouseX += (three.targX-three.mouseX)*0.04;
+      three.mouseY += (three.targY-three.mouseY)*0.04;
+      var s = three.scrub;
+
+      if(!reduced){
+        var baseAng = t*0.05 + s*1.4;
+        var radius = 30 - s*16;
+        var height = 17 - s*12;
+        three.camera.position.x = Math.sin(baseAng)*radius + three.mouseX*4*(1-s);
+        three.camera.position.z = Math.cos(baseAng)*radius;
+        three.camera.position.y = height + three.mouseY*-3*(1-s);
+        three.camera.lookAt(0, 1.2 - s*0.6, 0);
+
+        var sweepAngle=(t*0.55)%TWO_PI;
+        three.sweep.rotation.y=-sweepAngle;
+        var p=(t*0.9)%1;
+        three.beaconPulse.scale.setScalar(1+p*9);
+        three.beaconPulse.material.opacity=0.7*(1-p);
+        three.beacon.scale.setScalar(1+Math.sin(t*3)*0.08);
+        for(var k=0;k<three.incidents.length;k++){
+          var inc=three.incidents[k];
+          var diff=(sweepAngle-inc.angle+TWO_PI)%TWO_PI;
+          if(diff<0.12) inc.glow=1;
+          inc.glow*=0.988;
+          inc.mesh.material.opacity=0.55+Math.min(inc.glow,1)*0.45;
+          inc.mesh.scale.setScalar(1+inc.glow*0.55);
+        }
+      } else {
+        three.camera.position.set(9,17,28);
+        three.camera.lookAt(0,1.2,0);
+        three.sweep.visible=false; three.beaconPulse.visible=false;
+        for(var k2=0;k2<three.incidents.length;k2++) three.incidents[k2].mesh.material.opacity=0.75;
+      }
+      three.renderer.render(three.scene, three.camera);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* camera scrub: hero top → chapters end */
+  if(three && !reduced){
+    ScrollTrigger.create({
+      trigger:'#top', start:'top top', endTrigger:'#chapters', end:'bottom top',
+      onUpdate:function(self){ three.scrubTarget = self.progress; }
+    });
+  }
+  /* dim the scene while chapters are pinned so the words lead */
+  if(three && !reduced){
+    gsap.fromTo(canvas,{opacity:1},{opacity:0.55,ease:'none',
+      scrollTrigger:{trigger:'#chapters',start:'top 70%',end:'top top',scrub:true}});
+  }
+
+  /* hide scene + navy backdrop once past chapters (ivory body takes over) */
+  ScrollTrigger.create({
+    trigger:'.features-wrap', start:'top 55%',
+    onEnter:function(){
+      canvasVisible=false; canvas.style.visibility='hidden'; backdrop.style.visibility='hidden';
+      document.body.classList.remove('hero-mode');
+    },
+    onLeaveBack:function(){
+      canvasVisible=true; canvas.style.visibility='visible'; backdrop.style.visibility='visible';
+      document.body.classList.add('hero-mode');
+    }
+  });
+
+  /* ============ PRELOADER ============ */
+  var pctEl=document.getElementById('pct'), barEl=document.getElementById('bar');
+  var loaderEl=document.getElementById('loader'), curtain=document.getElementById('curtain');
+
+  function heroIntro(){
+    var tl=gsap.timeline();
+    tl.to('.mask>span',{y:0,duration:1.1,ease:'power4.out',stagger:0.12})
+      .to('.eyebrow',{opacity:1,duration:.8,ease:'power2.out'},'-=0.9')
+      .to('.hero-sub',{opacity:1,y:0,duration:.9,ease:'power2.out'},'-=0.7')
+      .to('.hero-ctas',{opacity:1,duration:.8},'-=0.6')
+      .to('.hero-note',{opacity:1,duration:.8},'-=0.6')
+      .to('.nav',{opacity:1,duration:.8},'-=0.7')
+      .to('.hud',{opacity:1,duration:.8},'-=0.7')
+      .to(['.scroll-cue','.map-legend'],{opacity:1,duration:.8},'-=0.5');
+  }
+
+  if(reduced){
+    loaderEl.style.display='none';
+    document.querySelectorAll('.mask>span').forEach(function(el){ el.style.transform='none'; });
+  } else {
+    document.body.style.overflow='hidden';
+    var load={v:0};
+    gsap.to(load,{v:100,duration:2.0,ease:'power2.inOut',
+      onUpdate:function(){
+        pctEl.textContent=Math.round(load.v);
+        barEl.style.transform='scaleX('+(load.v/100)+')';
+      },
+      onComplete:function(){
+        var tl=gsap.timeline({onComplete:function(){ document.body.style.overflow=''; ScrollTrigger.refresh(); }});
+        tl.to(curtain,{scaleY:1,duration:.5,ease:'power3.inOut'})
+          .to(loaderEl,{opacity:0,duration:.2,onComplete:function(){loaderEl.style.display='none';}},'-=0.1')
+          .set(curtain,{transformOrigin:'bottom'})
+          .to(curtain,{scaleY:0,duration:.7,ease:'power3.inOut'})
+          .add(heroIntro,'-=0.35');
+      }
+    });
+  }
+
+  if(reduced) return;
+
+  /* ============ PINNED CHAPTERS ============ */
+  var chapters=gsap.utils.toArray('.chapter');
+  var chDots=document.querySelectorAll('#chprog i');
+  gsap.set(chapters[0],{opacity:1,visibility:'visible'});
+  var chTl=gsap.timeline({
+    scrollTrigger:{
+      trigger:'#chapters', start:'top top', end:'+=280%',
+      pin:true, scrub:0.9,
+      onUpdate:function(self){
+        var idx=Math.min(2, Math.floor(self.progress*3));
+        chDots.forEach(function(d,i){ d.classList.toggle('on', i===idx); });
+      }
+    }
+  });
+  chapters.forEach(function(ch,i){
+    var h=ch.querySelector('h3'), p=ch.querySelector('p'), n=ch.querySelector('.ch-num'), m=ch.querySelector('.ch-mono');
+    if(i>0){
+      chTl.set(ch,{visibility:'visible'},'ch'+i)
+          .fromTo(ch,{opacity:0},{opacity:1,duration:0.18},'ch'+i);
+    } else { chTl.addLabel('ch0'); }
+    chTl.fromTo(h,{y:60,opacity:0},{y:0,opacity:1,duration:0.28,ease:'power3.out'},'ch'+i)
+        .fromTo([n,p,m],{y:24,opacity:0},{y:0,opacity:1,duration:0.22,stagger:0.04},'ch'+i+'+=0.08')
+        .to({},{duration:1.2});
+    if(i<chapters.length-1){
+      chTl.to(ch,{opacity:0,duration:0.2})
+          .set(ch,{visibility:'hidden'})
+          .addLabel('ch'+(i+1));
+    }
+  });
+
+  /* ============ MARQUEE + velocity skew ============ */
+  var mq=document.getElementById('marquee');
+  mq.innerHTML+=mq.innerHTML;
+  var mqX=0, lastScroll=window.scrollY, vel=0;
+  gsap.ticker.add(function(){
+    var sc=window.scrollY;
+    vel += ((sc-lastScroll) - vel)*0.1;
+    lastScroll=sc;
+    mqX -= (0.6 + Math.min(Math.abs(vel)*0.06, 3));
+    var half=mq.scrollWidth/2;
+    if(-mqX>=half) mqX+=half;
+    var skew=gsap.utils.clamp(-8,8,vel*0.25);
+    mq.style.transform='translateX('+mqX+'px) skewX('+skew+'deg)';
+  });
+
+  /* ============ SECTION REVEALS ============ */
+  gsap.utils.toArray('.reveal-h2 .mask>span').forEach(function(el){
+    gsap.to(el,{y:0,duration:1.1,ease:'power4.out',
+      scrollTrigger:{trigger:el,start:'top 86%'}});
+  });
+
+  gsap.utils.toArray('.feature').forEach(function(f){
+    var media=f.querySelector('.f-media'), img=media.querySelector('img'), copy=f.querySelector('.f-copy');
+    gsap.fromTo(copy,{y:50,opacity:0},{y:0,opacity:1,duration:1,ease:'power3.out',
+      scrollTrigger:{trigger:f,start:'top 78%'}});
+    gsap.to(media,{clipPath:'inset(0% 0% 0% 0% round 12px)',duration:1.2,ease:'power3.inOut',
+      scrollTrigger:{trigger:f,start:'top 74%'}});
+    gsap.fromTo(img,{scale:1.16,yPercent:-5},{scale:1.05,yPercent:5,ease:'none',
+      scrollTrigger:{trigger:f,start:'top bottom',end:'bottom top',scrub:0.6}});
+  });
+
+  gsap.utils.toArray('.count').forEach(function(el){
+    var to=parseFloat(el.dataset.to), dec=parseInt(el.dataset.dec||'0',10);
+    var obj={v:0};
+    gsap.to(obj,{v:to,duration:1.6,ease:'power2.out',
+      scrollTrigger:{trigger:el,start:'top 88%'},
+      onUpdate:function(){ el.textContent=obj.v.toFixed(dec); }});
+  });
+
+  gsap.utils.toArray('.price-card').forEach(function(card,i){
+    gsap.fromTo(card,{y:60,opacity:0},{y:0,opacity:1,duration:1,delay:i*0.12,ease:'power3.out',
+      scrollTrigger:{trigger:'.pricing',start:'top 80%'}});
+  });
+
+  gsap.to('#giantmark',{y:'0%',duration:1.4,ease:'power3.out',
+    scrollTrigger:{trigger:'footer',start:'top 88%'}});
+  gsap.fromTo('#giantmark',{xPercent:2},{xPercent:-2,ease:'none',
+    scrollTrigger:{trigger:'footer',start:'top bottom',end:'bottom bottom',scrub:0.8}});
+})();
 </script>
 </body>
 </html>
