@@ -180,8 +180,8 @@ footer a:hover{color:var(--gold-light)}
 <div class="wrap">
 
   <section class="card buy">
-    <h2>Get a neighborhood safety report</h2>
-    <div class="price"><b>$6.99</b><span>one address · one-time · no subscription</span></div>
+    <h2>See free safety data for any address</h2>
+    <p>Enter any US address to see free safety data — a live map, the city's safety grade (where we have one), and the nearby registered-offender count. No account, no card.</p>
     <form class="buy-form" id="buy" novalidate autocomplete="off">
       <label for="address">Property address</label>
       <div class="ac-wrap">
@@ -192,12 +192,11 @@ footer a:hover{color:var(--gold-light)}
         <ul class="ac-list" id="ac-list" role="listbox" aria-label="Address suggestions"></ul>
       </div>
       <div class="err" id="err" role="alert"></div>
-      <button class="go" type="submit" id="go">Continue</button>
+      <button class="go" type="submit" id="go">See free safety data</button>
     </form>
     <p class="note" id="ac-hint" style="margin-top:16px">
-      Payment via Stripe. If a critical source can't be reached, you get the honest report and an automatic refund.
+      The full report — every section, written analysis, and a shareable PDF — is an optional paid upgrade once you've seen the free data.
     </p>
-    <p class="note">Your report is emailed when it's ready — usually within about 5 minutes.</p>
   </section>
 
   <!-- ── The teaser step. Hidden until an address is submitted. ────────────────
@@ -238,10 +237,11 @@ footer a:hover{color:var(--gold-light)}
        source can't be reached for this location.</p>
 
     <div class="teaser-actions">
-      <button class="go" type="button" id="go2">Continue to secure checkout — $6.99</button>
+      <button class="go" type="button" id="go2">Unlock the full report — $6.99</button>
       <a class="btn-ghost" href="./sample-report.pdf" target="_blank" rel="noopener">See a full sample report</a>
     </div>
     <div class="err" id="err2" role="alert"></div>
+    <p class="note">Payment via Stripe. Your report is emailed when it's ready — usually within about 5 minutes. If a critical source can't be reached, you get the honest report and an automatic refund.</p>
     <!-- WS-G Phase 3, lifetime ruling A. Said HERE, at the point of sale, rather
          than discovered in week three when a link stops working. The map and the
          PDF share one token and one 7-day life; the PDF, once downloaded, is the
@@ -765,7 +765,7 @@ footer a:hover{color:var(--gold-light)}
   // ── checkout ─────────────────────────────────────────────────────────────
   go2.addEventListener("click", function(){
     var address = chosenAddress || (input.value || "").trim();
-    if (!address) { fail(err2, go2, "Please enter the property address.", "Continue to secure checkout — $6.99"); return; }
+    if (!address) { fail(err2, go2, "Please enter the property address.", "Unlock the full report — $6.99"); return; }
     err2.className = "err";
     go2.disabled = true; go2.textContent = "Starting checkout…";
 
@@ -778,11 +778,11 @@ footer a:hover{color:var(--gold-light)}
     .then(function(res){
       if (res.ok && res.body && res.body.url) { window.location.href = res.body.url; return; }
       fail(err2, go2, (res.body && res.body.error) || "Could not start checkout. Please try again.",
-           "Continue to secure checkout — $6.99");
+           "Unlock the full report — $6.99");
     })
     .catch(function(){
       fail(err2, go2, "Could not reach checkout. Check your connection and try again.",
-           "Continue to secure checkout — $6.99");
+           "Unlock the full report — $6.99");
     });
   });
 
