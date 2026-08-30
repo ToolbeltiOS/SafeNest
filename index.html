@@ -135,7 +135,7 @@ img{max-width:100%;display:block}
     radial-gradient(ellipse 90% 70% at 50% 42%, transparent 30%, var(--scrim-navy) 72%, var(--navy-deep) 100%),
     linear-gradient(to bottom, rgba(18,29,49,.5) 0%, transparent 22%, transparent 70%, rgba(18,29,49,.85) 100%);
 }
-.hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:120px clamp(20px,4vw,48px) 0;width:100%;text-align:center}
+.hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:120px clamp(20px,4vw,48px) 160px;width:100%;text-align:center}
 .eyebrow{
   font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--gold-light);text-transform:uppercase;
   display:inline-flex;align-items:center;gap:12px;margin-bottom:28px;
@@ -173,6 +173,8 @@ h1{animation:heroRise .9s cubic-bezier(.2,.6,.2,1) both}
 .nav{animation:heroFade .8s .3s both}
 .hud{animation:heroFade .8s .6s both}
 .scroll-cue{animation:heroFade .8s .7s both}
+@media(max-width:720px){.scroll-cue{bottom:40px}}
+@media(max-height:640px){.scroll-cue{display:none}}
 
 /* ================= CONTENT ================= */
 main{position:relative;z-index:2}
